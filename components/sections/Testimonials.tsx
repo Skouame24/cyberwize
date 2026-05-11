@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Marquee } from "@/components/ui/Marquee";
 import { AnimatedText } from "@/components/ui/AnimatedText";
 import { Quote, Star, CheckCircle2 } from "lucide-react";

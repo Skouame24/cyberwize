@@ -126,11 +126,9 @@ export function Features() {
                 </div>
 
                 {/* Technical Visualization Placeholder */}
-                {"visual" in feature ? feature.visual : (
-                  <div className="absolute top-12 right-12 opacity-[0.03] transition-opacity duration-700 group-hover:opacity-[0.1]">
-                    <feature.icon size={160} strokeWidth={0.5} />
-                  </div>
-                )}
+                <div className="absolute top-12 right-12 opacity-[0.03] transition-opacity duration-700 group-hover:opacity-[0.1]">
+                  <feature.icon size={160} strokeWidth={0.5} />
+                </div>
               </div>
 
               {/* Advanced Hover State */}

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import Marquee from "react-fast-marquee";
 import { ShieldCheck, Lock, Eye, Activity, Shield, Zap, Globe, Cpu } from "lucide-react";
 

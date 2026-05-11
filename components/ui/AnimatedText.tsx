@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useInView } from "motion/react";
+import { motion, useInView, Variants } from "motion/react";
 import { useRef } from "react";
 import { springs } from "@/lib/animations";
 
@@ -24,7 +24,7 @@ export function AnimatedText({
 
   const words = text.split(" ");
 
-  const container = {
+  const container: Variants = {
     hidden: { opacity: 0 },
     visible: (i: number) => ({
       opacity: 1,
@@ -35,7 +35,7 @@ export function AnimatedText({
     }),
   };
 
-  const child = {
+  const child: Variants = {
     hidden: {
       opacity: 0,
       y: "100%",

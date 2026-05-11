@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ShieldCheck, ArrowUpRight, CloudLightning, ShieldAlert, BarChart3 } from "lucide-react";
+import { motion, Variants } from "motion/react";
+import { ShieldCheck, ArrowUpRight, CloudLightning, ShieldAlert, BarChart3, ArrowRight } from "lucide-react";
 import { AnimatedText } from "@/components/ui/AnimatedText";
 
 const cases = [
@@ -31,7 +31,7 @@ const cases = [
   }
 ];
 
-const staggerContainer = {
+const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
@@ -41,9 +41,16 @@ const staggerContainer = {
   },
 };
 
-const fadeInUp = {
+const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } },
+  show: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { 
+      duration: 0.8, 
+      ease: [0.22, 1, 0.36, 1] 
+    } 
+  },
 };
 
 export function CaseStudies() {

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { useState } from "react";
 import { ShieldCheck, Lock, Users, GraduationCap, ArrowRight, Zap, Eye, Activity } from "lucide-react";
 import Image from "next/image";
