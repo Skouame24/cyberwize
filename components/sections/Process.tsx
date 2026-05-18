@@ -93,7 +93,7 @@ export function Process() {
                 <motion.div
                   whileHover={{ rotate: [0, -10, 10, 0] }}
                   transition={springs.snappy}
-                  className="mb-4 flex h-16 w-16 items-center justify-center rounded-xl bg-orange-50 border border-orange-100"
+                  className="mb-4 flex h-16 w-16 items-center justify-center rounded-xl border border-primary/15 bg-primary/[0.06]"
                 >
                   <s.icon className="h-7 w-7 text-cyber-cyan" />
                 </motion.div>

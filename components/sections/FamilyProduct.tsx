@@ -2,144 +2,161 @@
 
 import { motion } from "motion/react";
 import { useState } from "react";
-import { ShieldCheck, Lock, Users, GraduationCap, ArrowRight, Zap, Eye, Activity } from "lucide-react";
-import Image from "next/image";
+import { ShieldCheck, Lock, Users, GraduationCap, Zap, Eye, Activity } from "lucide-react";
 
 const familyFeatures = [
   {
-    title: "Contrôle Parental Sécurisé",
-    description: "Ajustez les paramètres pour chaque enfant afin de garantir une expérience adaptée à son âge. Filtrez les contenus et encadrez l’activité numérique.",
+    title: "Contrôle parental sécurisé",
+    description:
+      "Paramètres par enfant, filtrage des contenus et encadrement de l’activité numérique.",
     icon: Users,
-    color: "text-[#FF990A]",
-    bg: "bg-[#FF990A]/10"
+    color: "text-primary",
+    bg: "bg-primary/12",
   },
   {
-    title: "Navigation sécurisée & Données",
-    description: "Filtrage des sites malveillants et protection des données sensibles grâce à des technologies avancées de chiffrement.",
+    title: "Navigation & données",
+    description:
+      "Filtrage des sites malveillants et chiffrement avancé pour les données sensibles.",
     icon: Lock,
-    color: "text-black",
-    bg: "bg-black/5"
+    color: "text-accent",
+    bg: "bg-accent/12",
   },
   {
-    title: "Protection des Appareils",
-    description: "Surveillance des activités et protection contre les virus, malwares et autres menaces en ligne sur tous vos terminaux.",
+    title: "Protection des appareils",
+    description:
+      "Antivirus, anti-malware et surveillance unifiée sur tous vos terminaux.",
     icon: ShieldCheck,
-    color: "text-[#FF990A]",
-    bg: "bg-[#FF990A]/10"
+    color: "text-primary",
+    bg: "bg-primary/12",
   },
   {
-    title: "Éducation à la Cybersécurité",
-    description: "Modules éducatifs interactifs pour aider enfants et parents à adopter les bonnes pratiques numériques.",
+    title: "Éducation cybersécurité",
+    description:
+      "Modules interactifs pour enfants et parents : bonnes pratiques, sans jargon inutile.",
     icon: GraduationCap,
-    color: "text-black",
-    bg: "bg-black/5"
-  }
+    color: "text-ink",
+    bg: "bg-ink/8",
+  },
 ];
 
 export function FamilyProduct() {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
-    <section className="relative py-48 overflow-hidden bg-white" id="family">
-      {/* Soft Background Decorative Glows */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#FF990A]/5 blur-[150px] rounded-full" />
-      
+    <section className="relative overflow-hidden bg-background py-24 md:py-28 lg:py-32" id="family">
+      <div className="pointer-events-none absolute right-0 top-0 h-[min(520px,70vw)] w-[min(520px,70vw)] rounded-full bg-primary/[0.06] blur-[120px]" />
+
       <div className="relative z-10 mx-auto max-w-7xl px-6 sm:px-8">
-        <div className="text-center mb-32">
+        <div className="mb-14 text-center lg:mb-16">
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-black/5 border border-black/[0.05] text-[#FF990A] text-[10px] font-bold uppercase tracking-[0.4em] mb-8"
+            viewport={{ once: true, margin: "0px 0px -50px 0px" }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="mb-4 inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white/90 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-primary shadow-sm backdrop-blur-sm"
           >
-             CyberWize Family
+            CyberWize Family
           </motion.div>
-          <h2 className="text-6xl md:text-8xl font-sans font-black text-black tracking-tighter leading-[0.85] mb-8">
-            La Sécurité de votre <span className="text-[#FF990A]">Famille</span>, <br />
-            <span className="opacity-20 italic">Sans Compromis.</span>
+          <h2 className="mb-4 text-3xl font-semibold tracking-tight text-ink sm:text-4xl lg:text-[2.5rem]">
+            La sécurité de votre <span className="text-primary">famille</span>,{" "}
+            <span className="text-ink/35">sans compromis.</span>
           </h2>
-          <p className="mt-8 text-xl text-black/40 max-w-2xl mx-auto font-medium leading-relaxed">
-            Une barrière intelligente et proactive qui assure la protection complète de votre famille contre les menaces numériques.
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-ink/58">
+            Une couche intelligente et proactive pour protéger les usages quotidiens, avec une
+            interface claire et rassurante.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-12 gap-12 items-stretch">
-          {/* Tabs Menu */}
-          <div className="lg:col-span-5 space-y-4">
+        <div className="grid items-stretch gap-10 lg:grid-cols-12 lg:gap-12">
+          <div className="space-y-3 lg:col-span-5">
             {familyFeatures.map((feature, i) => (
               <button
-                key={i}
+                key={feature.title}
+                type="button"
                 onClick={() => setActiveTab(i)}
-                className={`w-full text-left p-10 rounded-[2.5rem] border transition-all duration-500 group relative overflow-hidden ${activeTab === i ? 'bg-white border-black/[0.08] shadow-2xl' : 'bg-transparent border-transparent opacity-30 hover:opacity-100 hover:bg-black/[0.02]'}`}
+                className={`group relative w-full overflow-hidden rounded-2xl border p-6 text-left transition-all duration-300 sm:p-8 hover:-translate-y-1 ${activeTab === i ? "border-primary/25 bg-white shadow-lg shadow-ink/[0.04]" : "border-transparent bg-white/40 opacity-80 hover:border-ink/10 hover:bg-white hover:opacity-100"}`}
               >
-                <div className="flex items-center gap-6">
-                  <div className={`h-14 w-14 rounded-2xl flex items-center justify-center transition-all duration-500 ${activeTab === i ? 'bg-[#FF990A] text-white scale-110' : 'bg-black/5 text-black'}`}>
-                    <feature.icon className="h-7 w-7" />
+                <div className="flex items-center gap-4">
+                  <div
+                    className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-all duration-300 ${activeTab === i ? "scale-105 bg-primary text-white" : `${feature.bg} ${feature.color}`}`}
+                  >
+                    <feature.icon className="h-6 w-6" strokeWidth={1.6} />
                   </div>
-                  <div className="flex-1">
-                    <span className="block text-xl font-black text-black tracking-tight mb-1">{feature.title}</span>
-                    <span className={`text-[10px] font-bold uppercase tracking-widest ${feature.color}`}>Protection Elite</span>
+                  <div className="min-w-0 flex-1">
+                    <span className="block text-base font-semibold tracking-tight text-ink sm:text-lg">
+                      {feature.title}
+                    </span>
+                    <span
+                      className={`mt-1 block text-[10px] font-semibold uppercase tracking-[0.16em] ${feature.color}`}
+                    >
+                      Protection guidée
+                    </span>
                   </div>
                 </div>
                 {activeTab === i && (
-                   <motion.div 
-                     initial={{ opacity: 0, height: 0 }}
-                     animate={{ opacity: 1, height: 'auto' }}
-                     className="mt-8"
-                   >
-                     <p className="text-black/50 text-base leading-relaxed font-medium">
-                       {feature.description}
-                     </p>
-                   </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    className="mt-5 border-t border-ink/[0.06] pt-5"
+                  >
+                    <p className="text-sm leading-relaxed text-ink/58">{feature.description}</p>
+                  </motion.div>
                 )}
               </button>
             ))}
           </div>
 
-          {/* Feature Showcase Card */}
           <div className="lg:col-span-7">
-            <motion.div 
+            <motion.div
               key={activeTab}
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="relative h-full rounded-[4rem] overflow-hidden border border-black/[0.08] bg-gray-50/50 p-16 flex flex-col justify-between"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+              className="relative flex h-full min-h-[420px] flex-col justify-between overflow-hidden rounded-3xl border border-ink/[0.08] bg-gradient-to-br from-white via-soft-gray/30 to-primary/[0.04] p-8 sm:p-10 lg:p-12"
             >
-               <div className="absolute inset-0 grid-pattern opacity-[0.03]" />
-               
-               <div className="relative z-10">
-                  <div className="flex justify-between items-start mb-16">
-                     <div className="p-4 rounded-2xl bg-white shadow-sm border border-black/[0.05]">
-                        <Activity className="h-6 w-6 text-[#FF990A]" />
-                     </div>
-                     <div className="px-4 py-1.5 rounded-full bg-black/5 text-black/40 text-[10px] font-bold uppercase tracking-widest">
-                        Standard Agilly Secure
-                     </div>
-                  </div>
+              <div className="pointer-events-none absolute inset-0 grid-pattern opacity-[0.04]" />
 
-                  <h3 className="text-5xl font-sans font-black text-black mb-8 tracking-tighter">
-                    {familyFeatures[activeTab].title}
-                  </h3>
-                  <p className="text-2xl text-black/40 leading-relaxed font-medium max-w-xl">
-                    {familyFeatures[activeTab].description}
+              <div className="relative z-10">
+                <div className="mb-10 flex items-start justify-between gap-4">
+                  <div className="rounded-xl border border-ink/[0.06] bg-white p-3 shadow-sm">
+                    <Activity className="h-5 w-5 text-primary" />
+                  </div>
+                  <div className="rounded-full border border-ink/10 bg-white/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-ink/45">
+                    Standard CyberWize
+                  </div>
+                </div>
+
+                <h3 className="mb-4 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+                  {familyFeatures[activeTab].title}
+                </h3>
+                <p className="max-w-xl text-base leading-relaxed text-ink/58 sm:text-lg">
+                  {familyFeatures[activeTab].description}
+                </p>
+              </div>
+
+              <div className="relative z-10 mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
+                <div className="rounded-2xl border border-primary/15 bg-gradient-to-br from-primary/[0.08] to-white p-6 transition-shadow hover:shadow-md">
+                  <Zap className="mb-4 h-7 w-7 text-primary" />
+                  <p className="mb-1 text-sm font-semibold uppercase tracking-tight text-ink">
+                    Performance
                   </p>
-               </div>
+                  <p className="text-sm leading-relaxed text-ink/55">
+                    Protection légère, sans ralentir les appareils du foyer.
+                  </p>
+                </div>
+                <div className="rounded-2xl border border-accent/20 bg-gradient-to-br from-sky-50/70 to-white p-6 transition-shadow hover:shadow-md">
+                  <Eye className="mb-4 h-7 w-7 text-accent" />
+                  <p className="mb-1 text-sm font-semibold uppercase tracking-tight text-ink">
+                    Visibilité
+                  </p>
+                  <p className="text-sm leading-relaxed text-ink/55">
+                    Tableaux de bord lisibles pour parents et adolescents.
+                  </p>
+                </div>
+              </div>
 
-               <div className="relative z-10 grid grid-cols-2 gap-8 mt-24">
-                  <div className="p-10 rounded-3xl bg-white border border-black/[0.05] group hover:border-[#FF990A]/20 transition-all">
-                     <Zap className="h-8 w-8 text-[#FF990A] mb-6" />
-                     <p className="text-black font-black text-lg mb-2 uppercase tracking-tighter">Performance</p>
-                     <p className="text-black/30 text-sm font-medium">Protection instantanée sans ralentir vos appareils.</p>
-                  </div>
-                  <div className="p-10 rounded-3xl bg-white border border-black/[0.05] group hover:border-black/20 transition-all">
-                     <Eye className="h-8 w-8 text-black mb-6" />
-                     <p className="text-black font-black text-lg mb-2 uppercase tracking-tighter">Visibilité</p>
-                     <p className="text-black/30 text-sm font-medium">Contrôle complet de l'activité numérique.</p>
-                  </div>
-               </div>
-
-               {/* Abstract Background Visual */}
-               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full pointer-events-none">
-                  <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-[#FF990A]/5 blur-[100px] rounded-full animate-pulse" />
-               </div>
+              <div className="pointer-events-none absolute right-1/4 top-1/3 h-48 w-48 rounded-full bg-primary/[0.07] blur-[80px]" />
             </motion.div>
           </div>
         </div>

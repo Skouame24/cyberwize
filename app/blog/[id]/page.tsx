@@ -1,172 +1,156 @@
-"use client";
-
-import { motion } from "motion/react";
-import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
-import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { ArrowLeft, Calendar, Clock } from "lucide-react";
+import { PageHero } from "@/components/layout/PageHero";
 
-const posts: Record<string, { title: string; date: string; readTime: string; category: string; content: string }> = {
+const posts: Record<
+  string,
+  { title: string; date: string; readTime: string; category: string; content: string }
+> = {
   "1": {
-    title: "Les 5 failles de sécurité les plus courantes en 2026",
+    title: "5 habitudes numériques à transmettre à vos enfants",
     date: "15 avril 2026",
     readTime: "5 min",
-    category: "Cybersécurité",
-    content: `
-## Introduction
+    category: "Famille",
+    content: `## Pourquoi commencer tôt
 
-En 2026, les cyberattaques sont plus sophistiquées que jamais. Pourtant, la majorité des brèches exploitent des failles bien connues que de nombreuses entreprises négligent encore.
+Les enfants utilisent internet de plus en plus jeunes. Leur apprendre les bons réflexes dès le départ, c'est leur offrir une protection qui dure.
 
-## 1. Mots de passe faibles ou réutilisés
+## 1. Des mots de passe uniques
 
-Malgré les campagnes de sensibilisation, les mots de passe faibles restent la porte d'entrée numéro un. L'authentification multifactorielle (MFA) reste le rempart le plus efficace.
+Un mot de passe par compte. Un gestionnaire familial simplifie tout.
 
-## 2. Phishing ciblé (Spear Phishing)
+## 2. Ne jamais cliquer sans réfléchir
 
-Les attaquants personnalisent leurs messages en se basant sur les informations trouvées sur les réseaux sociaux. La vigilance et la formation sont essentielles.
+Un lien reçu par message ? Vérifier avec un adulte avant d'ouvrir.
 
-## 3. Logiciels non patchés
+## 3. Partager avec prudence
 
-Les vulnérabilités connues dans les systèmes d'exploitation et les applications représentent une opportunité facile pour les hackers. Un patch management rigoureux est indispensable.
+Pas de photos personnelles ni d'adresse dans les jeux en ligne.
 
-## 4. Mauvaise configuration cloud
+## 4. Parler des contenus inappropriés
 
-Les buckets S3 ouverts, les bases de données exposées... Les erreurs de configuration dans le cloud sont légion et souvent catastrophiques.
+Créer un espace où l'enfant peut signaler ce qui le met mal à l'aise.
 
-## 5. Insuffisance de segmentation réseau
+## 5. Des pauses régulières
 
-Une fois à l'intérieur, un attaquant peut se déplacer latéralement sans segmentation. Le principe du moindre privilège doit s'appliquer au réseau.
-
-## Conclusion
-
-Ces failles sont évitables avec une politique de sécurité claire, des audits réguliers et une culture de la sécurité au sein de l'entreprise.
-    `,
+Des règles claires, définies ensemble.`,
   },
   "2": {
-    title: "RGPD en Côte d'Ivoire : ce qu'il faut savoir",
+    title: "Phishing : repérer les arnaques par SMS",
     date: "2 avril 2026",
-    readTime: "7 min",
-    category: "Conformité",
-    content: `
-## Contexte juridique
+    readTime: "4 min",
+    category: "Cybersécurité",
+    content: `## Le SMS piège
 
-La Côte d'Ivoire a renforcé son cadre de protection des données avec la loi n°2013-450 et les textes subséquents. Toute entreprise traitant des données personnelles doit se conformer.
+Urgence artificielle, lien raccourci, fautes d'orthographe — les signaux sont souvent les mêmes.
 
-## Obligations clés
+## Les bons réflexes
 
-- **Consentement éclairé** : obtenir un consentement explicite.
-- **Minimisation** : ne collecter que le nécessaire.
-- **Sécurité** : protéger les données par des mesures techniques et organisationnelles.
-- **Droits des personnes** : accès, rectification, effacement.
-
-## Sanctions
-
-Les manquements peuvent entraîner des sanctions administratives et pénales. La réputation de l'entreprise est également en jeu.
-
-## Comment se conformer ?
-
-Un audit de conformité, la mise à jour des politiques et la sensibilisation des équipes sont les premières étapes.
-    `,
+Ne jamais cliquer directement. Contacter l'organisme via son site officiel.`,
   },
   "3": {
-    title: "Pourquoi faire un pentest chaque année ?",
+    title: "Contrôle parental : le bon équilibre",
     date: "20 mars 2026",
+    readTime: "6 min",
+    category: "Famille",
+    content: `## Protéger, pas surveiller
+
+Un cadre de sécurité discuté ouvertement avec les enfants.
+
+## Adapter selon l'âge
+
+Plus l'enfant est jeune, plus les filtres sont stricts.`,
+  },
+  "4": {
+    title: "RGPD et données familiales",
+    date: "5 mars 2026",
+    readTime: "7 min",
+    category: "Conformité",
+    content: `## Vos données, vos droits
+
+Consentement, minimisation, sécurité et droit d'accès — l'essentiel pour les foyers.`,
+  },
+  "5": {
+    title: "Former la famille aux risques en ligne",
+    date: "18 février 2026",
+    readTime: "5 min",
+    category: "Formation",
+    content: `## Culture cyber partagée
+
+Parents et enfants apprennent ensemble avec quiz et fiches pratiques.`,
+  },
+  "6": {
+    title: "VPN familial : quand l'utiliser",
+    date: "1 février 2026",
     readTime: "4 min",
-    category: "Pentest",
-    content: `
-## Un environnement en constante évolution
+    category: "Cybersécurité",
+    content: `## Wi-Fi public
 
-Votre infrastructure change tous les jours : nouveaux logiciels, nouveaux employés, nouvelles configurations. Chaque changement peut introduire de nouvelles vulnérabilités.
-
-## Les attaquants ne dorment pas
-
-Les techniques d'attaque évoluent rapidement. Ce qui était sécurisé l'an dernier peut ne plus l'être aujourd'hui.
-
-## La conformité l'exige
-
-De nombreux référentiels (ISO 27001, PCI-DSS) imposent des tests d'intrusion réguliers.
-
-## Retour sur investissement
-
-Un pentest coûte moins cher qu'une cyberattaque. C'est un investissement prudent.
-    `,
+Le VPN chiffre la connexion — utile en voyage ou dans les lieux partagés.`,
   },
 };
 
-export default function BlogPostPage() {
-  const params = useParams();
-  const id = params.id as string;
+export default async function BlogPostPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
   const post = posts[id];
 
   if (!post) {
     return (
-      <div className="pt-40 text-center">
-        <h1 className="text-2xl font-display font-bold text-cyber-white">
-          Article non trouvé
-        </h1>
-        <Link href="/blog">
-          <Button variant="outline" className="mt-6">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Retour au blog
-          </Button>
+      <div className="mx-auto max-w-6xl section-pad text-center">
+        <h1 className="font-serif text-2xl text-ink">Article non trouvé</h1>
+        <Link href="/blog" className="link-soft mt-6 inline-flex items-center gap-2">
+          <ArrowLeft className="h-4 w-4" />
+          Retour au blog
         </Link>
       </div>
     );
   }
 
   return (
-    <div className="pt-28">
-      <article className="mx-auto max-w-3xl px-4 pb-24 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <Link href="/blog">
-            <Button variant="ghost" size="sm" className="mb-6">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Retour au blog
-            </Button>
+    <>
+      <PageHero
+        eyebrow={post.category}
+        title={post.title}
+        description={`${post.date} · ${post.readTime}`}
+      />
+      <article className="bg-paper">
+        <div className="mx-auto max-w-3xl section-pad">
+          <Link href="/blog" className="link-soft mb-10 inline-flex items-center gap-2 text-sm">
+            <ArrowLeft className="h-3.5 w-3.5" />
+            Retour au blog
           </Link>
-
-          <div className="flex items-center gap-3 text-sm text-cyber-gray">
-            <Badge variant="cyan">{post.category}</Badge>
+          <div className="flex gap-4 text-xs text-muted">
             <span className="flex items-center gap-1">
-              <Calendar className="h-3.5 w-3.5" />
+              <Calendar className="h-3 w-3" />
               {post.date}
             </span>
             <span className="flex items-center gap-1">
-              <Clock className="h-3.5 w-3.5" />
+              <Clock className="h-3 w-3" />
               {post.readTime}
             </span>
           </div>
-
-          <h1 className="mt-4 text-3xl font-display font-bold text-cyber-white sm:text-4xl">
-            {post.title}
-          </h1>
-
-          <div className="prose prose-invert mt-10 max-w-none">
-            {post.content.split("\n\n").map((paragraph, i) => {
-              if (paragraph.startsWith("## ")) {
+          <div className="mt-10">
+            {post.content.split("\n\n").map((block, i) => {
+              if (block.startsWith("## ")) {
                 return (
-                  <h2
-                    key={i}
-                    className="mt-8 mb-4 text-xl font-display font-semibold text-cyber-cyan"
-                  >
-                    {paragraph.replace("## ", "")}
+                  <h2 key={i} className="mt-10 mb-4 font-serif text-xl text-ink md:text-2xl">
+                    {block.replace("## ", "")}
                   </h2>
                 );
               }
               return (
-                <p key={i} className="mb-4 leading-relaxed text-cyber-gray">
-                  {paragraph}
+                <p key={i} className="mb-4 text-[15px] leading-[1.85] text-muted">
+                  {block}
                 </p>
               );
             })}
           </div>
-        </motion.div>
+        </div>
       </article>
-    </div>
+    </>
   );
 }

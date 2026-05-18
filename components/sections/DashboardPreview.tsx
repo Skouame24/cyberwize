@@ -33,56 +33,61 @@ export function DashboardPreview() {
   }, []);
 
   return (
-    <section className="relative py-48 overflow-hidden bg-white">
+    <section className="relative overflow-hidden bg-white py-24 md:py-28 lg:py-32">
       {/* Soft Background Tech Elements */}
       <div className="absolute inset-0 bg-agilly-gradient opacity-[0.4]" />
       
       <div className="relative z-10 mx-auto max-w-7xl px-6 sm:px-8">
-        <div className="grid lg:grid-cols-2 gap-32 items-center">
+        <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-16">
           <div>
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
+              initial={{ opacity: 0, x: -40 }}
               whileInView={{ opacity: 1, x: 0 }}
-              className="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-black/5 border border-black/[0.05] text-black/60 text-[10px] font-bold uppercase tracking-[0.4em] mb-12"
+              viewport={{ once: true, margin: "0px 0px -50px 0px" }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="mb-5 inline-flex items-center gap-2 rounded-full border border-ink/10 bg-soft-gray/80 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-ink/55"
             >
-              <div className="h-2 w-2 rounded-full bg-[#FF990A] animate-pulse" />
-              Monitoring en Temps Réel
+              <div className="h-2 w-2 animate-pulse rounded-full bg-primary" />
+              Monitoring temps réel
             </motion.div>
-            
-            <h2 className="text-6xl md:text-8xl font-sans font-black text-black tracking-tighter leading-[0.85] mb-12">
-               Contrôle <span className="opacity-20 italic">Total</span>. <br />
-               Visibilité <span className="text-[#FF990A]">Elite.</span>
+
+            <h2 className="mb-5 text-3xl font-semibold tracking-tight text-ink sm:text-4xl lg:text-[2.5rem] lg:leading-[1.12]">
+              Contrôle unifié. <br />
+              Visibilité <span className="text-primary">opérationnelle.</span>
             </h2>
-            
-            <p className="text-2xl text-black/40 font-medium leading-relaxed mb-16 max-w-xl">
-               CyberWize n'est pas qu'une protection, c'est une interface de commandement "Hyper-Soft" pour votre sécurité Cloud et On-Premise.
+
+            <p className="mb-10 max-w-xl text-base leading-relaxed text-ink/58 sm:text-lg">
+              CyberWize n&apos;est pas qu&apos;une protection : c&apos;est une interface de pilotage
+              pour votre sécurité cloud et on-premise, pensée comme une plateforme.
             </p>
 
-            <div className="grid grid-cols-2 gap-6">
-               <div className="p-10 rounded-[3rem] bg-gray-50 border border-black/[0.03] group hover:border-[#FF990A]/20 transition-all">
-                  <div className="h-12 w-12 rounded-2xl bg-white shadow-sm flex items-center justify-center mb-6">
-                     <Cpu className="h-6 w-6 text-black" />
+            <div className="grid grid-cols-2 gap-4">
+               <div className="rounded-2xl border border-ink/[0.06] bg-gradient-to-br from-sky-50/60 to-white p-6 transition-all hover:border-accent/25">
+                  <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-white shadow-sm">
+                     <Cpu className="h-5 w-5 text-ink" strokeWidth={1.6} />
                   </div>
-                  <p className="text-4xl font-sans font-black text-black tracking-tight mb-2">1.2ms</p>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-black/30">Réaction</p>
+                  <p className="mb-1 text-3xl font-semibold tracking-tight text-ink">1.2ms</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-ink/40">Réaction</p>
                </div>
-               <div className="p-10 rounded-[3rem] bg-gray-50 border border-black/[0.03] group hover:border-[#FF990A]/20 transition-all">
-                  <div className="h-12 w-12 rounded-2xl bg-white shadow-sm flex items-center justify-center mb-6">
-                     <Zap className="h-6 w-6 text-[#FF990A]" />
+               <div className="rounded-2xl border border-primary/15 bg-gradient-to-br from-primary/[0.07] to-white p-6 transition-all hover:border-primary/30">
+                  <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-white shadow-sm">
+                     <Zap className="h-5 w-5 text-primary" strokeWidth={1.6} />
                   </div>
-                  <p className="text-4xl font-sans font-black text-black tracking-tight mb-2">99.9%</p>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-black/30">Uptime</p>
+                  <p className="mb-1 text-3xl font-semibold tracking-tight text-ink">99.9%</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-ink/40">Uptime</p>
                </div>
             </div>
           </div>
 
           {/* Interactive Tactical UI - Softer */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
+            initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            className="relative p-2 rounded-[4rem] bg-gradient-to-br from-black/[0.05] via-transparent to-[#FF990A]/10"
+            viewport={{ once: true, margin: "0px 0px -50px 0px" }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            className="relative rounded-[2.5rem] border border-ink/[0.06] bg-gradient-to-br from-ink/[0.04] via-transparent to-primary/10 p-2"
           >
-            <div className="bg-white rounded-[3.8rem] p-12 overflow-hidden relative shadow-2xl border border-black/[0.05]">
+            <div className="relative overflow-hidden rounded-[2.35rem] border border-ink/[0.06] bg-white p-8 shadow-xl sm:p-10">
                <div className="absolute inset-0 grid-pattern opacity-[0.03]" />
                
                <div className="relative z-10">
@@ -125,7 +130,7 @@ export function DashboardPreview() {
                           </div>
                           <span className={`text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest ${
                              log.severity === 'critical' ? 'bg-red-500 text-white' : 
-                             log.severity === 'medium' ? 'bg-[#FF990A] text-white' : 'bg-black/5 text-black/40'
+                             log.severity === "medium" ? "bg-primary text-white" : "bg-ink/[0.06] text-ink/45"
                           }`}>
                              {log.severity}
                           </span>
@@ -145,7 +150,7 @@ export function DashboardPreview() {
                      </div>
                      <div className="text-center">
                         <p className="text-[9px] font-bold text-black/20 uppercase mb-2">Load</p>
-                        <p className="text-2xl font-sans font-black text-[#FF990A] tracking-tight">Active</p>
+                        <p className="text-2xl font-semibold tracking-tight text-primary">Active</p>
                      </div>
                   </div>
                </div>

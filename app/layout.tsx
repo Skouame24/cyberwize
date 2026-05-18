@@ -1,22 +1,27 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Libre_Baskerville, Plus_Jakarta_Sans } from "next/font/google";
 import "@/styles/globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { Providers } from "@/components/layout/Providers";
-import { ScrollProgress } from "@/components/layout/ScrollProgress";
-import { CustomCursor } from "@/components/layout/CustomCursor";
 
-const inter = Inter({
+const fontSerif = Libre_Baskerville({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-serif",
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
+});
+
+const fontSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-jakarta",
   display: "swap",
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "Cyberwize | Cybersécurité & Intelligence Digitale",
+  title: "Cyberwize Family | Votre Gardien Numérique",
   description:
-    "Solutions de cybersécurité avancées, audit, pentest et monitoring 24/7. Protégez votre entreprise avec Cyberwize.",
+    "Protection des familles en ligne : défense avancée, contrôle parental, navigation sécurisée et éducation interactive. Propulsé par Agilly.",
 };
 
 export default function RootLayout({
@@ -25,16 +30,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className={inter.variable}>
-      <body className="bg-background">
-        <Providers>
-          <div className="noise-overlay" aria-hidden="true" />
-          <ScrollProgress />
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
-        </Providers>
-
+    <html lang="fr" className={`${fontSerif.variable} ${fontSans.variable}`}>
+      <body className="bg-background font-sans text-ink antialiased">
+        <Navbar />
+        <main>{children}</main>
+        <Footer />
       </body>
     </html>
   );

@@ -55,31 +55,33 @@ const fadeInUp: Variants = {
 
 export function CaseStudies() {
   return (
-    <section className="relative bg-white py-64 overflow-hidden border-t border-black/[0.03]">
+    <section className="relative overflow-hidden border-t border-ink/[0.06] bg-white py-24 md:py-28 lg:py-32">
       <div className="relative z-10 mx-auto max-w-7xl px-6 sm:px-8">
-        <div className="mb-24">
+        <div className="mb-14 lg:mb-16">
           <motion.div
             initial={{ opacity: 0, x: -10 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="flex items-center gap-4 mb-8"
+            className="mb-5 flex items-center gap-4"
           >
-            <div className="h-px w-12 bg-[#FF990A]" />
-            <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#FF990A]">Impact Réel</span>
+            <div className="h-px w-12 bg-primary" />
+            <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-primary">
+              Impact réel
+            </span>
           </motion.div>
-          
+
           <AnimatedText
-            text="L'Excellence en Action."
+            text="L'excellence en action."
             tag="h2"
-            className="text-6xl font-sans font-black text-black sm:text-8xl tracking-tight leading-[0.9] mb-12"
+            className="mb-6 text-3xl font-semibold tracking-tight text-ink sm:text-4xl lg:text-[2.5rem] lg:leading-[1.12]"
           />
-          
+
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="max-w-2xl text-xl text-black/60 font-medium tracking-tight"
+            transition={{ duration: 0.55, delay: 0.08 }}
+            className="max-w-2xl text-base leading-relaxed text-ink/58 sm:text-lg"
           >
             Découvrez comment nous transformons les défis de sécurité les plus complexes en succès stratégiques pour nos clients.
           </motion.p>
@@ -96,26 +98,26 @@ export function CaseStudies() {
             <motion.div
               key={i}
               variants={fadeInUp}
-              className="group relative flex flex-col md:flex-row gap-12 p-12 rounded-[2.5rem] border border-black/[0.03] bg-white transition-all duration-1000 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.08)]"
+              className="group relative flex flex-col gap-10 rounded-3xl border border-ink/[0.06] bg-gradient-to-br from-white to-soft-gray/50 p-8 transition-all duration-500 hover:shadow-xl md:flex-row md:gap-12 md:p-10"
             >
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-6">
-                  <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#FF990A]">{item.category}</span>
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary">{item.category}</span>
                 </div>
-                <h3 className="text-4xl font-sans font-black text-black tracking-tight mb-6 group-hover:text-[#FF990A] transition-colors duration-500">
+                <h3 className="mb-5 text-2xl font-semibold tracking-tight text-ink transition-colors duration-500 group-hover:text-primary sm:text-3xl">
                   {item.title}
                 </h3>
-                <p className="text-xl text-black/60 font-medium leading-relaxed max-w-2xl">
+                <p className="max-w-2xl text-base leading-relaxed text-ink/58 sm:text-lg">
                   {item.description}
                 </p>
                 
                 <div className="mt-10 flex items-center gap-10">
                    <div>
-                      <p className="text-[9px] font-bold text-black/40 uppercase tracking-widest mb-1">{item.stats.label}</p>
-                      <p className="text-2xl font-sans font-black text-black">{item.stats.value}</p>
+                      <p className="mb-1 text-[9px] font-semibold uppercase tracking-widest text-ink/45">{item.stats.label}</p>
+                      <p className="text-2xl font-semibold tracking-tight text-ink">{item.stats.value}</p>
                    </div>
-                   <div className="h-10 w-px bg-black/[0.05]" />
-                   <button className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#FF990A] hover:gap-4 transition-all">
+                   <div className="h-10 w-px bg-ink/[0.08]" />
+                   <button className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-primary transition-all hover:gap-4">
                       Lire l'étude <ArrowUpRight className="h-4 w-4" />
                    </button>
                 </div>

@@ -2,106 +2,86 @@
 
 import { motion } from "motion/react";
 import { Marquee } from "@/components/ui/Marquee";
-import { AnimatedText } from "@/components/ui/AnimatedText";
-import { Quote, Star, CheckCircle2 } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
+import { fadeInUpScroll, mobbinCardHover, mobbinCardTap } from "@/lib/animations";
 
 const testimonials = [
   {
-    quote: "Cyberwize a identifié des vulnérabilités critiques que nous ignorions totalement. Leur approche tactique a transformé notre posture de sécurité.",
-    author: "Kouamé B.",
-    role: "DSI, Groupe Bancaire Africain",
-    avatar: "https://i.pravatar.cc/150?u=kb",
-    verified: true
+    quote:
+      "Enfin une solution que je comprends : je vois ce qui est filtré et mes enfants gardent leurs usages sans que je passe mes soirées dans les réglages.",
+    author: "Adjoua K.",
+    role: "Parent, deux adolescents",
+    avatar: "https://i.pravatar.cc/150?u=adj",
   },
   {
-    quote: "Le SOC Elite d'Agilly est une extension indispensable de notre équipe IT. Une réactivité et une expertise technique de classe mondiale.",
-    author: "Amélie K.",
-    role: "Directrice Cyber, Fintech Global",
-    avatar: "https://i.pravatar.cc/150?u=ak",
-    verified: true
+    quote:
+      "Les alertes sur les sites douteux arrivent avant que les petits ne cliquent. On se sent vraiment accompagnés, pas seuls face à Internet.",
+    author: "Marc T.",
+    role: "Père de famille, Abidjan",
+    avatar: "https://i.pravatar.cc/150?u=marc",
   },
   {
-    quote: "L'implémentation de leur Neural Engine a réduit nos faux positifs de 95%. C'est l'avenir de la défense proactive.",
-    author: "Sophie M.",
-    role: "CTO, E-commerce Cloud",
-    avatar: "https://i.pravatar.cc/150?u=sm",
-    verified: true
+    quote:
+      "J'apprécie les contenus pour expliquer le phishing à la maison, sans vocabulaire technique. CyberWize Family, c'est concret.",
+    author: "Hélène R.",
+    role: "Enseignante & parent",
+    avatar: "https://i.pravatar.cc/150?u=hel",
   },
   {
-    quote: "Une compréhension rare des enjeux business mêlée à une rigueur technique absolue. Agilly est notre partenaire de confiance.",
-    author: "Yao D.",
-    role: "Responsable Sécurité, Télécoms Hub",
-    avatar: "https://i.pravatar.cc/150?u=yd",
-    verified: true
+    quote:
+      "Nous voulions une seule offre pour téléphones et PC du foyer. Tout est centralisé, avec Agilly en soutien quand on a une question.",
+    author: "Yves D.",
+    role: "Chef de famille",
+    avatar: "https://i.pravatar.cc/150?u=yves",
   },
 ];
 
 export function Testimonials() {
   return (
-    <section className="relative overflow-hidden bg-white py-48">
-      {/* Background Depth */}
-      <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-primary/[0.02] to-transparent pointer-events-none" />
-      <div className="absolute inset-0 grid-pattern opacity-[0.03] pointer-events-none" />
-
-      <div className="relative z-10 mx-auto max-w-7xl px-6 sm:px-8 mb-32">
-        <div className="flex flex-col items-center text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="flex items-center gap-3 text-primary mb-8"
-          >
-            <div className="h-1.5 w-1.5 rounded-full bg-primary" />
-            <span className="text-[10px] font-bold uppercase tracking-[0.4em]">EXCELLENCE OPÉRATIONNELLE</span>
-          </motion.div>
-
-          <AnimatedText
-            text="La Preuve par l'Expérience."
-            tag="h2"
-            className="text-6xl font-sans font-black text-black sm:text-8xl tracking-tight leading-[0.9]"
-            delay={0.1}
-          />
-          
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.3 }}
-            className="mt-12 max-w-2xl text-xl text-black/60 font-medium tracking-tight"
-          >
-            Nous accompagnons les leaders de l'industrie dans la sécurisation de leurs infrastructures les plus critiques.
-          </motion.p>
-        </div>
-      </div>
+    <section className="border-t border-ink/[0.06] bg-white py-20 md:py-24">
+      <motion.div
+        variants={fadeInUpScroll}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        className="mx-auto mb-12 max-w-6xl px-6 lg:px-10"
+      >
+        <p className="text-sm font-medium text-muted">Témoignages</p>
+        <h2 className="mt-2 max-w-2xl text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-[2rem]">
+          Retours d&apos;usage réel
+        </h2>
+        <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-muted">
+          Ce que disent les familles après adoption du produit — pas de slogans, des situations concrètes.
+        </p>
+      </motion.div>
 
       <div className="relative">
-        <Marquee 
-          speed={40}
+        <Marquee
+          speed={36}
           items={testimonials.map((t, i) => (
-            <div key={i} className="w-[480px] px-6 py-10">
-              <div className="relative h-full p-10 rounded-[2.5rem] bg-white border border-black/[0.05] shadow-sm transition-all duration-700 hover:shadow-xl hover:border-[#FF990A]/20 group">
-                <div className="absolute top-8 right-8 flex items-center gap-2 px-3 py-1 rounded-full bg-black/5 border border-black/5">
-                   <CheckCircle2 className="h-3 w-3 text-[#FF990A]" />
-                   <span className="text-[9px] font-bold uppercase tracking-widest text-black/40">Vérifié</span>
+            <div key={i} className="w-[min(100vw-2rem,440px)] shrink-0 px-3 py-2 md:px-4">
+              <motion.article
+                whileHover={mobbinCardHover}
+                whileTap={mobbinCardTap}
+                className="flex h-full cursor-default flex-col rounded-lg border border-ink/[0.08] bg-soft-bg p-6 shadow-[0_1px_2px_rgba(10,14,20,0.04)]"
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <span className="inline-flex items-center gap-1.5 text-xs font-medium text-muted">
+                    <CheckCircle2 className="h-3.5 w-3.5 text-ink/40" aria-hidden />
+                    Vérifié
+                  </span>
                 </div>
-
-                <Quote className="h-10 w-10 text-[#FF990A] opacity-10 mb-8 transition-opacity group-hover:opacity-20" />
-                
-                <p className="text-xl font-medium leading-[1.3] text-black tracking-tight mb-12">
-                  &ldquo;{t.quote}&rdquo;
-                </p>
-
-                <div className="flex items-center gap-5 pt-8 border-t border-black/[0.05]">
-                  <div className="h-14 w-14 rounded-xl overflow-hidden border border-black/[0.08] grayscale group-hover:grayscale-0 transition-all duration-700">
-                    <img src={t.avatar} alt={t.author} className="h-full w-full object-cover" />
+                <p className="mt-4 flex-1 text-[15px] leading-relaxed text-ink">&ldquo;{t.quote}&rdquo;</p>
+                <div className="mt-6 flex items-center gap-3 border-t border-ink/[0.06] pt-5">
+                  <div className="h-10 w-10 shrink-0 overflow-hidden rounded-md border border-ink/[0.08] bg-white">
+                    <img src={t.avatar} alt="" className="h-full w-full object-cover" width={40} height={40} />
                   </div>
                   <div>
-                    <h4 className="font-sans font-bold text-lg text-black leading-none mb-1">{t.author}</h4>
-                    <p className="text-[9px] font-bold text-[#FF990A] uppercase tracking-[0.2em]">{t.role}</p>
+                    <p className="text-sm font-semibold text-ink">{t.author}</p>
+                    <p className="text-xs text-muted">{t.role}</p>
                   </div>
                 </div>
-              </div>
+              </motion.article>
             </div>
           ))}
         />

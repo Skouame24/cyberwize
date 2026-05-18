@@ -2,7 +2,7 @@
 
 import { motion, useInView, Variants } from "motion/react";
 import { useRef } from "react";
-import { springs } from "@/lib/animations";
+import { easeNotion } from "@/lib/animations";
 
 interface AnimatedTextProps {
   text: string;
@@ -28,9 +28,9 @@ export function AnimatedText({
     hidden: { opacity: 0 },
     visible: (i: number) => ({
       opacity: 1,
-      transition: { 
-        staggerChildren: 0.05, 
-        delayChildren: delay + i * 0.1,
+      transition: {
+        staggerChildren: 0.04,
+        delayChildren: delay + i * 0.03,
       },
     }),
   };
@@ -38,14 +38,14 @@ export function AnimatedText({
   const child: Variants = {
     hidden: {
       opacity: 0,
-      y: "100%",
+      y: 4,
     },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.8,
-        ease: [0.22, 1, 0.36, 1], // Custom smooth ease
+        duration: 0.38,
+        ease: easeNotion,
       },
     },
   };

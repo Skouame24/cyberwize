@@ -1,56 +1,29 @@
-"use client";
-
-import { motion } from "motion/react";
-import { staggerContainer, staggerItem, springs } from "@/lib/animations";
-
 const stats = [
-  { value: "500+", label: "Menaces bloquées / jour" },
-  { value: "99.9%", label: "Uptime garanti" },
-  { value: "24/7", label: "Surveillance SOC" },
-  { value: "150+", label: "Entreprises protégées" },
+  { value: "3500", label: "jours sans incident" },
+  { value: "+10", label: "ans d'expertise Agilly" },
+  { value: "+300", label: "familles accompagnées" },
+  { value: "3800+", label: "appareils protégés" },
 ];
 
 export function Stats() {
   return (
-    <section className="relative overflow-hidden border-y border-cyber-muted/10 bg-cyber-black">
-      {/* Subtle background glow */}
-      <div className="absolute inset-0 bg-gradient-to-b from-cyber-cyan/[0.02] to-transparent" />
+    <section className="border-y border-outline bg-background">
+      <div className="mx-auto max-w-6xl section-pad">
+        <div className="max-w-xl">
+          <p className="eyebrow">En chiffres</p>
+          <h2 className="mt-3 font-serif text-[2rem] text-ink md:text-[2.5rem]">
+            Des résultats concrets
+          </h2>
+        </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          className="grid grid-cols-2 gap-px md:grid-cols-4"
-        >
-          {stats.map((stat, index) => (
-            <motion.div
-              key={stat.label}
-              variants={staggerItem}
-              whileHover={{ y: -4, transition: springs.snappy }}
-              className="relative px-4 py-8 text-center md:px-8"
-            >
-              {/* Divider */}
-              {index > 0 && (
-                <div className="absolute top-1/2 left-0 hidden h-12 w-px -translate-y-1/2 bg-cyber-muted/10 md:block" />
-              )}
-
-              <motion.div
-                initial={{ opacity: 0, scale: 0.5 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={springs.bouncy}
-                className="text-4xl font-display text-cyber-cyan sm:text-5xl lg:text-6xl"
-              >
-                {stat.value}
-              </motion.div>
-              <div className="mt-3 text-sm font-medium uppercase tracking-wider text-cyber-gray">
-                {stat.label}
-              </div>
-            </motion.div>
+        <dl className="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0 lg:divide-x lg:divide-outline">
+          {stats.map((s) => (
+            <div key={s.label} className="lg:px-8 lg:first:pl-0 lg:last:pr-0">
+              <dt className="font-serif text-4xl text-primary md:text-5xl">{s.value}</dt>
+              <dd className="mt-2 text-[15px] text-muted">{s.label}</dd>
+            </div>
           ))}
-        </motion.div>
+        </dl>
       </div>
     </section>
   );

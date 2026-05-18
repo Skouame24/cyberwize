@@ -5,106 +5,74 @@ import { motion, useMotionValue, useSpring } from "motion/react";
 
 export function CustomCursor() {
   const [isHovering, setIsHovering] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const [enabled, setEnabled] = useState(false);
 
-  const cursorX = useMotionValue(-100);
-  const cursorY = useMotionValue(-100);
-
-  const springConfig = { damping: 25, stiffness: 400, mass: 0.5 };
-  const cursorXSpring = useSpring(cursorX, springConfig);
-  const cursorYSpring = useSpring(cursorY, springConfig);
+  const x = useMotionValue(-100);
+  const y = useMotionValue(-100);
+  const xSpring = useSpring(x, { stiffness: 380, damping: 28, mass: 0.4 });
+  const ySpring = useSpring(y, { stiffness: 380, damping: 28, mass: 0.4 });
 
   useEffect(() => {
-    const moveCursor = (e: MouseEvent) => {
-      cursorX.set(e.clientX);
-      cursorY.set(e.clientY);
-      
-      // Update global mouse position for card halo effects
-      const x = (e.clientX / window.innerWidth) * 100;
-      const y = (e.clientY / window.innerHeight) * 100;
-      document.documentElement.style.setProperty("--mouse-x", `${x}%`);
-      document.documentElement.style.setProperty("--mouse-y", `${y}%`);
-      
-      if (!isVisible) setIsVisible(true);
+    const fine = window.matchMedia("(pointer: fine)").matches;
+    setEnabled(fine);
+    if (!fine) return;
+
+    const move = (e: MouseEvent) => {
+      x.set(e.clientX);
+      y.set(e.clientY);
     };
 
-    const handleMouseEnter = () => setIsHovering(true);
-    const handleMouseLeave = () => setIsHovering(false);
+    const onEnter = () => setIsHovering(true);
+    const onLeave = () => setIsHovering(false);
 
-    window.addEventListener("mousemove", moveCursor);
+    window.addEventListener("mousemove", move);
 
-    const interactiveElements = document.querySelectorAll(
-      "a, button, [role='button'], input, textarea, select, [data-cursor-hover]"
-    );
-
-    interactiveElements.forEach((el) => {
-      el.addEventListener("mouseenter", handleMouseEnter);
-      el.addEventListener("mouseleave", handleMouseLeave);
-    });
+    const bind = () => {
+      document.querySelectorAll("a, button, [data-cursor-hover]").forEach((el) => {
+        el.addEventListener("mouseenter", onEnter);
+        el.addEventListener("mouseleave", onLeave);
+      });
+    };
+    bind();
+    const obs = new MutationObserver(bind);
+    obs.observe(document.body, { childList: true, subtree: true });
 
     return () => {
-      window.removeEventListener("mousemove", moveCursor);
-      interactiveElements.forEach((el) => {
-        el.removeEventListener("mouseenter", handleMouseEnter);
-        el.removeEventListener("mouseleave", handleMouseLeave);
-      });
+      window.removeEventListener("mousemove", move);
+      obs.disconnect();
     };
-  }, [cursorX, cursorY, isVisible]);
+  }, [x, y]);
 
-  // Re-attach listeners when DOM changes
-  useEffect(() => {
-    const observer = new MutationObserver(() => {
-      const interactiveElements = document.querySelectorAll(
-        "a, button, [role='button'], input, textarea, select, [data-cursor-hover]"
-      );
-      const handleMouseEnter = () => setIsHovering(true);
-      const handleMouseLeave = () => setIsHovering(false);
-
-      interactiveElements.forEach((el) => {
-        el.removeEventListener("mouseenter", handleMouseEnter);
-        el.removeEventListener("mouseleave", handleMouseLeave);
-        el.addEventListener("mouseenter", handleMouseEnter);
-        el.addEventListener("mouseleave", handleMouseLeave);
-      });
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
-    return () => observer.disconnect();
-  }, []);
+  if (!enabled) return null;
 
   return (
     <>
       <style jsx global>{`
         @media (pointer: fine) {
-          * {
+          a,
+          button,
+          [data-cursor-hover] {
             cursor: none !important;
           }
         }
       `}</style>
       <motion.div
-        className="pointer-events-none fixed top-0 left-0 z-[9999]"
-        style={{
-          x: cursorXSpring,
-          y: cursorYSpring,
-        }}
+        className="pointer-events-none fixed left-0 top-0 z-[9999] mix-blend-multiply"
+        style={{ x: xSpring, y: ySpring }}
       >
         <motion.div
           animate={{
-            width: isHovering ? 80 : 16,
-            height: isHovering ? 80 : 16,
-            opacity: isVisible ? 1 : 0,
+            width: isHovering ? 36 : 10,
+            height: isHovering ? 36 : 10,
+            marginLeft: isHovering ? -18 : -5,
+            marginTop: isHovering ? -18 : -5,
+            backgroundColor: isHovering ? "rgba(232, 93, 4, 0.15)" : "rgba(232, 93, 4, 0.9)",
+            borderWidth: isHovering ? 2 : 0,
           }}
-          transition={{ type: "spring", damping: 30, stiffness: 250, mass: 0.5 }}
-          className="flex items-center justify-center rounded-full bg-primary/20 border border-primary/30 shadow-lg"
-          style={{
-            marginLeft: isHovering ? -40 : -8,
-            marginTop: isHovering ? -40 : -8,
-            backdropFilter: "blur(2px)",
-          }}
+          transition={{ type: "spring", stiffness: 400, damping: 26 }}
+          className="rounded-full border-primary"
         />
       </motion.div>
-
     </>
   );
 }
-
