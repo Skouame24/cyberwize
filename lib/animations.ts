@@ -2,9 +2,24 @@ import { Variants, Transition } from "motion/react";
 
 export const easeMobbin = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
+/** Alias utilisés par les sections legacy */
+export const easeNotion = easeMobbin;
+
 export const springs = {
   entry: { type: "spring", stiffness: 120, damping: 14 } as Transition,
   hover: { type: "spring", stiffness: 300, damping: 20 } as Transition,
+  soft: { type: "spring", stiffness: 90, damping: 18 } as Transition,
+  snappy: { type: "spring", stiffness: 260, damping: 22 } as Transition,
+};
+
+/** Alias de fadeUp pour scroll reveal */
+export const fadeInUpScroll: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: easeMobbin },
+  },
 };
 
 export const fadeUp: Variants = {

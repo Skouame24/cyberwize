@@ -3,11 +3,12 @@
 import { motion } from "motion/react";
 import { BookOpen, Lock, Cpu } from "lucide-react";
 import {
-  fadeInUpScroll,
+  
   staggerContainer,
   staggerItem,
   mobbinCardHover,
   mobbinCardTap,
+  fadeUp,
 } from "@/lib/animations";
 
 const commitments = [
@@ -36,7 +37,7 @@ export function About() {
     <section className="border-t border-ink/[0.06] bg-background py-20 md:py-24 lg:py-28" id="about">
       <div className="mx-auto max-w-6xl px-6 lg:px-10">
         <motion.div
-          variants={fadeInUpScroll}
+          variants={fadeUp}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}

@@ -1,40 +1,60 @@
 "use client";
 
-import { motion, type HTMLMotionProps } from "motion/react";
+import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { softItem, softStagger, viewport } from "@/lib/motion";
 
-type StaggerProps = HTMLMotionProps<"div"> & {
-  as?: "div" | "ul";
+const staggerMotionProps = {
+  variants: softStagger,
+  initial: "hidden" as const,
+  whileInView: "visible" as const,
+  viewport,
 };
 
-export function Stagger({ as = "div", className, children, ...props }: StaggerProps) {
-  const Tag = as === "ul" ? motion.ul : motion.div;
+type StaggerProps = {
+  as?: "div" | "ul";
+  className?: string;
+  children: React.ReactNode;
+};
+
+export function Stagger({ as = "div", className, children }: StaggerProps) {
+  const classes = cn(className);
+
+  if (as === "ul") {
+    return (
+      <motion.ul {...staggerMotionProps} className={classes}>
+        {children}
+      </motion.ul>
+    );
+  }
 
   return (
-    <Tag
-      variants={softStagger}
-      initial="hidden"
-      whileInView="visible"
-      viewport={viewport}
-      className={cn(className)}
-      {...props}
-    >
+    <motion.div {...staggerMotionProps} className={classes}>
       {children}
-    </Tag>
+    </motion.div>
   );
 }
 
-type StaggerItemProps = HTMLMotionProps<"li"> & {
+type StaggerItemProps = {
   as?: "li" | "div";
+  className?: string;
+  children: React.ReactNode;
 };
 
-export function StaggerItem({ as = "li", className, children, ...props }: StaggerItemProps) {
-  const Tag = as === "div" ? motion.div : motion.li;
+export function StaggerItem({ as = "li", className, children }: StaggerItemProps) {
+  const classes = cn(className);
+
+  if (as === "div") {
+    return (
+      <motion.div variants={softItem} className={classes}>
+        {children}
+      </motion.div>
+    );
+  }
 
   return (
-    <Tag variants={softItem} className={cn(className)} {...props}>
+    <motion.li variants={softItem} className={classes}>
       {children}
-    </Tag>
+    </motion.li>
   );
 }

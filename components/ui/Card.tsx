@@ -8,21 +8,29 @@ import { mobbinCardHover } from "@/lib/animations";
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   hover?: boolean;
+  glow?: boolean;
 }
 
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ className, children, hover = false, ...props }, ref) => {
-    const Comp = hover ? motion.div : "div";
+  ({ className, children, hover = false, glow: _glow, ...props }, ref) => {
+    const classes = cn("glass-card p-6", className);
+
+    if (hover) {
+      return (
+        <motion.div
+          ref={ref}
+          whileHover={mobbinCardHover}
+          className={classes}
+        >
+          {children}
+        </motion.div>
+      );
+    }
 
     return (
-      <Comp
-        ref={ref as React.Ref<HTMLDivElement>}
-        {...(hover ? { whileHover: mobbinCardHover } : {})}
-        className={cn("glass-card p-6", className)}
-        {...props}
-      >
+      <div ref={ref} className={classes} {...props}>
         {children}
-      </Comp>
+      </div>
     );
   }
 );
