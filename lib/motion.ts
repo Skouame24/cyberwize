@@ -71,36 +71,37 @@ export const cascade: Variants = {
   },
 };
 
-/** Entrée douce au scroll — léger, sans blur ni rotation */
+/** Entrée au scroll — visible sans être agressive */
 export const softReveal = (delay = 0): Variants => ({
-  hidden: { opacity: 0, y: 18 },
+  hidden: { opacity: 0, y: 36 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: ease.out, delay },
+    transition: { duration: 0.75, ease: ease.out, delay },
   },
 });
 
 export const softStagger: Variants = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.07, delayChildren: 0.04 },
+    transition: { staggerChildren: 0.1, delayChildren: 0.06 },
   },
 };
 
 export const softItem: Variants = {
-  hidden: { opacity: 0, y: 14 },
+  hidden: { opacity: 0, y: 28, scale: 0.98 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: ease.out },
+    scale: 1,
+    transition: { duration: 0.6, ease: ease.out },
   },
 };
 
 export const viewport = {
   once: true,
-  amount: 0.2,
-  margin: "-48px 0px -48px 0px",
+  amount: 0.12,
+  margin: "-60px 0px -80px 0px",
 } as const;
 
 export const fadeLeft: Variants = {

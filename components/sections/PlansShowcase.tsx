@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { plans, formatPrice, type PlanId } from "@/lib/plans";
+import { Reveal } from "@/components/ui/Reveal";
 
 type PlansShowcaseProps = {
   showDeviceHint?: boolean;
@@ -20,12 +21,15 @@ export function PlansShowcase({ showDeviceHint = false, className }: PlansShowca
   return (
     <section className={cn("bg-warm", className)} id={showDeviceHint ? undefined : "pricing"}>
       <div className="mx-auto max-w-6xl section-pad">
-        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <Reveal className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="eyebrow">Nos offres</p>
             <h2 className="mt-3 max-w-lg font-serif text-[2rem] leading-tight text-ink md:text-[2.5rem]">
-              Une protection pensée pour votre foyer
+              Choisissez la formule <span className="italic text-primary">adaptée</span>
             </h2>
+            <p className="mt-3 max-w-md text-sm text-muted">
+              Tarifs fixes, sans surprise — Essentiel, Famille ou Premium.
+            </p>
           </div>
 
           <div className="inline-flex rounded-full border border-outline bg-paper p-1 text-sm">
@@ -51,7 +55,7 @@ export function PlansShowcase({ showDeviceHint = false, className }: PlansShowca
               <span className="ml-1.5 text-[11px] opacity-80">−20%</span>
             </button>
           </div>
-        </div>
+        </Reveal>
 
         <div className="mt-12 grid grid-cols-3 gap-2 sm:gap-3">
           {plans.map((p) => (

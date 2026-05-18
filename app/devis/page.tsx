@@ -5,15 +5,10 @@ export default function DevisPage() {
   return (
     <>
       <PageHero
-        eyebrow="Essai gratuit"
-        title={
-          <>
-            14 jours pour{" "}
-            <span className="italic text-primary">tester en famille</span>
-          </>
-        }
-        description="Sans engagement. Installation guidée et accompagnement humain."
-        image="/hero-cloud.png"
+        eyebrow="Demande de devis"
+        title="Demande de devis"
+        description="Devis PDF par email et lien d'essai 14 jours inclus."
+        highlights={["PDF automatique", "Essai inclus", "Réponse sous 24h"]}
       />
       <DevisContent />
     </>

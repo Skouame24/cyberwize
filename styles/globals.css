@@ -109,6 +109,47 @@
   .surface-soft {
     @apply rounded-2xl border border-outline bg-paper p-6 md:p-8;
   }
+
+  .soft-bg {
+    @apply bg-background;
+  }
+
+  .soft-gray {
+    @apply bg-warm;
+  }
+
+  .grid-pattern {
+    background-image: radial-gradient(rgba(25, 28, 29, 0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .bg-agilly-gradient {
+    background: linear-gradient(
+      135deg,
+      rgba(240, 130, 34, 0.04) 0%,
+      rgba(248, 249, 250, 0.9) 50%,
+      rgba(0, 96, 172, 0.04) 100%
+    );
+  }
+
+  .page-hero {
+    background: linear-gradient(
+      165deg,
+      #fff8f2 0%,
+      #ffffff 42%,
+      #f8f9fa 100%
+    );
+  }
+
+  .page-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(240, 130, 34, 0.07) 1px, transparent 1px);
+    background-size: 28px 28px;
+    mask-image: linear-gradient(to bottom, black 0%, transparent 85%);
+    pointer-events: none;
+  }
 }
 
 ::selection {

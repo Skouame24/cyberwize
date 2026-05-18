@@ -7,13 +7,9 @@ export default function OffresPage() {
     <>
       <PageHero
         eyebrow="Offres"
-        title={
-          <>
-            Choisissez la protection{" "}
-            <span className="italic text-primary">adaptée à votre foyer</span>
-          </>
-        }
+        title="Nos offres et tarifs"
         description="Tarifs clairs, essai gratuit 14 jours, expertise Agilly."
+        highlights={["Essai 14 jours", "Sans engagement", "Support humain"]}
       />
       <OffresContent />
       <CtaFinal />

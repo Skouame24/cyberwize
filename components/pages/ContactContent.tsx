@@ -1,6 +1,7 @@
 "use client";
 
-import { Mail, Phone, MapPin, Send } from "lucide-react";
+import Link from "next/link";
+import { Mail, Phone, MapPin, Send, Linkedin, Facebook, Twitter } from "lucide-react";
 
 const contacts = [
   {
@@ -52,10 +53,51 @@ export function ContactContent() {
                 </li>
               ))}
             </ul>
+
+            <div className="mt-10">
+              <p className="text-sm font-medium text-ink">Réseaux sociaux</p>
+              <div className="mt-3 flex gap-3">
+                <a
+                  href="https://linkedin.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-outline bg-warm text-muted hover:border-primary/40 hover:text-primary"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin className="h-4 w-4" />
+                </a>
+                <a
+                  href="https://facebook.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-outline bg-warm text-muted hover:border-primary/40 hover:text-primary"
+                  aria-label="Facebook"
+                >
+                  <Facebook className="h-4 w-4" />
+                </a>
+                <a
+                  href="https://twitter.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-outline bg-warm text-muted hover:border-primary/40 hover:text-primary"
+                  aria-label="X (Twitter)"
+                >
+                  <Twitter className="h-4 w-4" />
+                </a>
+              </div>
+            </div>
+
+            <p className="mt-8 text-sm text-muted">
+              Documentation :{" "}
+              <Link href="/support" className="link-soft">
+                Support & FAQ
+              </Link>
+            </p>
           </div>
 
           <div className="surface-soft">
-            <h2 className="font-serif text-xl text-ink">Envoyer un message</h2>
+            <h2 className="font-serif text-xl text-ink">Formulaire sécurisé</h2>
+            <p className="mt-2 text-sm text-muted">Vos données sont chiffrées en transit (HTTPS).</p>
             <form className="mt-8 space-y-5" onSubmit={(e) => e.preventDefault()}>
               <div className="grid gap-5 sm:grid-cols-2">
                 <div>

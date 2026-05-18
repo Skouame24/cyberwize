@@ -69,6 +69,27 @@ export function AboutContent() {
         </div>
       </section>
 
+      <section className="border-t border-outline bg-paper">
+        <div className="mx-auto max-w-6xl section-pad">
+          <div className="grid gap-10 md:grid-cols-2">
+            <div>
+              <p className="eyebrow">Vision</p>
+              <p className="mt-3 text-[15px] leading-relaxed text-muted">
+                Une Afrique numérique où chaque foyer et chaque TPE dispose d&apos;une protection
+                cyber crédible, sans complexité inutile.
+              </p>
+            </div>
+            <div>
+              <p className="eyebrow">Mission</p>
+              <p className="mt-3 text-[15px] leading-relaxed text-muted">
+                Démocratiser la cybersécurité professionnelle via des offres claires, un
+                accompagnement humain et une technologie fiable — portée par Agilly.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="bg-warm">
         <div className="mx-auto max-w-6xl section-pad">
           <div className="flex flex-col gap-10 md:flex-row md:items-center md:justify-between">

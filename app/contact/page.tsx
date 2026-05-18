@@ -6,13 +6,9 @@ export default function ContactPage() {
     <>
       <PageHero
         eyebrow="Contact"
-        title={
-          <>
-            Parlons de la protection{" "}
-            <span className="italic text-primary">de votre foyer</span>
-          </>
-        }
+        title="Nous contacter"
         description="Notre équipe vous répond sous 24 heures."
+        highlights={["Abidjan", "Email & téléphone", "Formulaire sécurisé"]}
       />
       <ContactContent />
     </>

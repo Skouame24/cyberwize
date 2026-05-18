@@ -7,13 +7,9 @@ export default function AboutPage() {
     <>
       <PageHero
         eyebrow="À propos"
-        title={
-          <>
-            Cyberwize Family &{" "}
-            <span className="italic text-primary">l&apos;expertise Agilly</span>
-          </>
-        }
-        description="Une solution de cybersécurité accessible, rassurante et professionnelle — pour particuliers, familles et petites structures."
+        title="Qui sommes-nous"
+        description="Cyberwize Family et l'expertise Agilly au service des familles."
+        highlights={["Vision & mission", "Équipe en Côte d'Ivoire", "Depuis 2014"]}
         image="/hero-bg.png"
       />
       <AboutContent />

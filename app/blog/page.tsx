@@ -6,12 +6,7 @@ export default function BlogPage() {
     <>
       <PageHero
         eyebrow="Blog"
-        title={
-          <>
-            Conseils pour protéger{" "}
-            <span className="italic text-primary">votre foyer en ligne</span>
-          </>
-        }
+        title="Conseils cybersécurité"
         description="Cybersécurité accessible, bonnes pratiques et sensibilisation pour toute la famille."
       />
       <BlogContent />

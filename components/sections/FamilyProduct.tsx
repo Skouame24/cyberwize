@@ -47,25 +47,22 @@ export function FamilyProduct() {
       <div className="pointer-events-none absolute right-0 top-0 h-[min(520px,70vw)] w-[min(520px,70vw)] rounded-full bg-primary/[0.06] blur-[120px]" />
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 sm:px-8">
-        <div className="mb-14 text-center lg:mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "0px 0px -50px 0px" }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="mb-4 inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white/90 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-primary shadow-sm backdrop-blur-sm"
-          >
-            CyberWize Family
-          </motion.div>
-          <h2 className="mb-4 text-3xl font-semibold tracking-tight text-ink sm:text-4xl lg:text-[2.5rem]">
-            La sécurité de votre <span className="text-primary">famille</span>,{" "}
-            <span className="text-ink/35">sans compromis.</span>
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-14 text-center lg:mb-16"
+        >
+          <p className="eyebrow justify-center">Ce que vous obtenez</p>
+          <h2 className="mt-3 font-serif text-[1.75rem] text-ink md:text-[2.25rem]">
+            Tout pour protéger <span className="italic text-primary">toute la famille</span>
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-ink/58">
-            Une couche intelligente et proactive pour protéger les usages quotidiens, avec une
-            interface claire et rassurante.
+          <p className="mx-auto mt-4 max-w-2xl text-[15px] leading-relaxed text-muted">
+            Contrôle parental, antivirus, navigation sécurisée et formation — les essentiels en un
+            seul abonnement.
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid items-stretch gap-10 lg:grid-cols-12 lg:gap-12">
           <div className="space-y-3 lg:col-span-5">

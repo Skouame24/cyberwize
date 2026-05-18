@@ -22,13 +22,17 @@ export function DashboardPreview() {
       const newLog: SecurityLog = {
         id: Math.random(),
         type: types[Math.floor(Math.random() * types.length)],
-        source: `192.168.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`,
-        target: "Cloud Infra",
+        source: ["Téléphone Léa", "PC salon", "Tablette", "Wi-Fi maison"][
+          Math.floor(Math.random() * 4)
+        ],
+        target: ["Site phishing", "App suspecte", "Contenu filtré", "Tentative SMS"][
+          Math.floor(Math.random() * 4)
+        ],
         timestamp: new Date().toLocaleTimeString(),
         severity: Math.random() > 0.8 ? "critical" : Math.random() > 0.4 ? "medium" : "low"
       };
       setLogs(prev => [newLog, ...prev].slice(0, 5));
-    }, 3000);
+    }, 2500);
     return () => clearInterval(interval);
   }, []);
 
@@ -48,17 +52,17 @@ export function DashboardPreview() {
               className="mb-5 inline-flex items-center gap-2 rounded-full border border-ink/10 bg-soft-gray/80 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-ink/55"
             >
               <div className="h-2 w-2 animate-pulse rounded-full bg-primary" />
-              Monitoring temps réel
+              Alertes en direct
             </motion.div>
 
-            <h2 className="mb-5 text-3xl font-semibold tracking-tight text-ink sm:text-4xl lg:text-[2.5rem] lg:leading-[1.12]">
-              Contrôle unifié. <br />
-              Visibilité <span className="text-primary">opérationnelle.</span>
+            <p className="eyebrow mt-2">Votre tableau de bord</p>
+            <h2 className="mt-3 font-serif text-[1.75rem] text-ink md:text-[2.25rem]">
+              Tout le foyer, <span className="italic text-primary">en un coup d&apos;œil</span>
             </h2>
 
-            <p className="mb-10 max-w-xl text-base leading-relaxed text-ink/58 sm:text-lg">
-              CyberWize n&apos;est pas qu&apos;une protection : c&apos;est une interface de pilotage
-              pour votre sécurité cloud et on-premise, pensée comme une plateforme.
+            <p className="mb-10 mt-4 max-w-xl text-[15px] leading-relaxed text-muted">
+              Menaces bloquées, appareils protégés et alertes claires — pour agir vite sans être
+              expert.
             </p>
 
             <div className="grid grid-cols-2 gap-4">
@@ -66,15 +70,15 @@ export function DashboardPreview() {
                   <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-white shadow-sm">
                      <Cpu className="h-5 w-5 text-ink" strokeWidth={1.6} />
                   </div>
-                  <p className="mb-1 text-3xl font-semibold tracking-tight text-ink">1.2ms</p>
-                  <p className="text-[10px] font-semibold uppercase tracking-widest text-ink/40">Réaction</p>
+                  <p className="mb-1 font-serif text-3xl text-ink">12</p>
+                  <p className="text-xs font-medium text-muted">Menaces bloquées / semaine</p>
                </div>
                <div className="rounded-2xl border border-primary/15 bg-gradient-to-br from-primary/[0.07] to-white p-6 transition-all hover:border-primary/30">
                   <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-white shadow-sm">
                      <Zap className="h-5 w-5 text-primary" strokeWidth={1.6} />
                   </div>
-                  <p className="mb-1 text-3xl font-semibold tracking-tight text-ink">99.9%</p>
-                  <p className="text-[10px] font-semibold uppercase tracking-widest text-ink/40">Uptime</p>
+                  <p className="mb-1 font-serif text-3xl text-ink">5</p>
+                  <p className="text-xs font-medium text-muted">Appareils protégés</p>
                </div>
             </div>
           </div>

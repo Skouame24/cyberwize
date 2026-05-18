@@ -44,17 +44,15 @@ type StaggerItemProps = {
 export function StaggerItem({ as = "li", className, children }: StaggerItemProps) {
   const classes = cn(className);
 
+  const motionProps = {
+    variants: softItem,
+    className: classes,
+    whileHover: { y: -4, transition: { duration: 0.2 } },
+  };
+
   if (as === "div") {
-    return (
-      <motion.div variants={softItem} className={classes}>
-        {children}
-      </motion.div>
-    );
+    return <motion.div {...motionProps}>{children}</motion.div>;
   }
 
-  return (
-    <motion.li variants={softItem} className={classes}>
-      {children}
-    </motion.li>
-  );
+  return <motion.li {...motionProps}>{children}</motion.li>;
 }

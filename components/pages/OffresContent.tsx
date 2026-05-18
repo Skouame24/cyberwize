@@ -67,7 +67,7 @@ export function OffresContent() {
                 </p>
               </div>
 
-              <Link href="/devis" className="btn-primary mt-6 inline-flex w-full justify-center sm:w-auto">
+              <Link href="/essai" className="btn-primary mt-6 inline-flex w-full justify-center sm:w-auto">
                 Essai gratuit 14 jours
                 <ArrowRight className="h-4 w-4" />
               </Link>

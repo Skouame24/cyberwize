@@ -46,12 +46,13 @@ export function Testimonials() {
         viewport={{ once: true, amount: 0.2 }}
         className="mx-auto mb-12 max-w-6xl px-6 lg:px-10"
       >
-        <p className="text-sm font-medium text-muted">Témoignages</p>
-        <h2 className="mt-2 max-w-2xl text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-[2rem]">
-          Retours d&apos;usage réel
+        <p className="eyebrow">Ils nous font confiance</p>
+        <h2 className="mt-3 max-w-2xl font-serif text-[1.75rem] text-ink md:text-[2.25rem]">
+          Paroles de <span className="italic text-primary">parents</span>
         </h2>
         <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-muted">
-          Ce que disent les familles après adoption du produit — pas de slogans, des situations concrètes.
+          Familles en Côte d&apos;Ivoire et au-delà — retours sincères après quelques semaines
+          d&apos;utilisation.
         </p>
       </motion.div>
 

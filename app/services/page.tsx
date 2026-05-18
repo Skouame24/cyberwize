@@ -7,14 +7,8 @@ export default function ServicesPage() {
     <>
       <PageHero
         eyebrow="Produits"
-        title={
-          <>
-            Protection complète,{" "}
-            <span className="italic text-primary">simple à vivre</span>
-          </>
-        }
-        description="Défense avancée, contrôle parental, navigation sécurisée et éducation — les quatre piliers de Cyberwize Family."
-        image="/hero-bg.png"
+        title="Nos produits"
+        description="Protection, contrôle parental, navigation sécurisée et formation."
       />
       <ServicesContent />
       <CtaFinal />
