@@ -1,5 +1,6 @@
 import { Hero } from "@/components/sections/Hero";
 import { PartnersMarquee } from "@/components/sections/PartnersMarquee";
+import { WhatIsCyberwize } from "@/components/sections/WhatIsCyberwize";
 import { HomeMission } from "@/components/sections/HomeMission";
 import { TrustBand } from "@/components/sections/TrustBand";
 import { DefensePillars } from "@/components/sections/DefensePillars";
@@ -14,6 +15,7 @@ export default function HomePage() {
     <>
       <Hero />
       <PartnersMarquee />
+      <WhatIsCyberwize />
       <HomeMission />
       <TrustBand />
       <DefensePillars />

@@ -2,10 +2,40 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Minus, Plus, ArrowRight } from "lucide-react";
+import { Minus, Plus, ArrowRight, Smartphone, Laptop, Tablet } from "lucide-react";
+import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { plans, recommendPlan, formatPrice } from "@/lib/plans";
 import { PlansShowcase } from "@/components/sections/PlansShowcase";
+
+const deviceIcons = [Smartphone, Laptop, Tablet, Smartphone, Laptop];
+
+function DeviceGrid({ count }: { count: number }) {
+  const slots = Math.min(count, 12);
+  return (
+    <div className="mt-6 flex flex-wrap justify-center gap-2">
+      {Array.from({ length: slots }).map((_, i) => {
+        const Icon = deviceIcons[i % deviceIcons.length];
+        return (
+          <motion.span
+            key={i}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: i * 0.04, duration: 0.3 }}
+            className="flex h-10 w-10 items-center justify-center rounded-xl border border-primary/30 bg-primary-muted text-primary shadow-sm"
+          >
+            <Icon className="h-4 w-4" strokeWidth={1.6} />
+          </motion.span>
+        );
+      })}
+      {count > 12 && (
+        <span className="flex h-10 items-center px-2 text-xs font-medium text-muted">
+          +{count - 12}
+        </span>
+      )}
+    </div>
+  );
+}
 
 const compareRows = [
   { label: "Appareils", essentiel: "3", famille: "10", premium: "Illimité" },
@@ -46,7 +76,14 @@ export function OffresContent() {
                 >
                   <Minus className="h-4 w-4" />
                 </button>
-                <span className="font-serif text-5xl text-primary">{devices}</span>
+                <motion.span
+                  key={devices}
+                  initial={{ scale: 0.9, opacity: 0.6 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  className="font-serif text-5xl text-primary"
+                >
+                  {devices}
+                </motion.span>
                 <button
                   type="button"
                   onClick={() => setDevices((d) => Math.min(20, d + 1))}
@@ -56,6 +93,7 @@ export function OffresContent() {
                   <Plus className="h-4 w-4" />
                 </button>
               </div>
+              <DeviceGrid count={devices} />
 
               <div className="mt-8 rounded-2xl border border-primary/25 bg-primary-muted/60 p-5">
                 <p className="text-sm text-muted">Notre recommandation</p>

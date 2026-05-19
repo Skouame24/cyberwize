@@ -16,10 +16,6 @@ export function TrustBand() {
             L&apos;expertise cybersécurité qui protège déjà les entreprises,{" "}
             <span className="italic text-primary-deep">au service des familles</span>
           </p>
-          <p className="mt-3 text-[15px] leading-relaxed text-muted">
-            Cyberwize Family reprend les standards Agilly — sans le jargon corporate : vous
-            gardez le contrôle, nous assurons la technique.
-          </p>
         </Reveal>
         <Reveal delay={0.12}>
           <Image

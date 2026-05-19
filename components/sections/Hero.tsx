@@ -5,11 +5,12 @@ import Image from "next/image";
 import { motion } from "motion/react";
 import { ArrowRight, Shield } from "lucide-react";
 import { ease } from "@/lib/motion";
+import { brand } from "@/lib/brand-copy";
 
 const highlights = [
-  "Antivirus & anti-malware",
+  "Barrière proactive",
   "Contrôle parental",
-  "Alertes claires pour parents",
+  "Équipe Agilly en Côte d'Ivoire",
 ];
 
 export function Hero() {
@@ -49,22 +50,21 @@ export function Hero() {
             className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-medium text-white/90 backdrop-blur-sm"
           >
             <Shield className="h-3.5 w-3.5 text-primary" />
-            Cyberwize Family · Propulsé par Agilly
+            {brand.name} · {brand.poweredBy}
           </motion.div>
 
           <h1 className="max-w-3xl font-serif text-[2rem] leading-[1.1] text-white sm:text-[2.85rem] lg:text-[3.35rem]">
-            Protégez votre foyer en ligne,{" "}
-            <span className="italic text-primary">simplement</span>
+            {brand.hero.title},{" "}
+            <span className="italic text-primary">{brand.hero.titleAccent}</span>
           </h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25, duration: 0.7, ease: ease.out }}
-            className="mt-5 max-w-xl text-[15px] leading-[1.85] text-white/80 sm:text-base"
+            className="mt-5 max-w-2xl text-[15px] leading-[1.85] text-white/80 sm:text-base"
           >
-            La cybersécurité professionnelle d&apos;Agilly, adaptée aux familles : navigation
-            sécurisée, contrôle parental et accompagnement humain — sans jargon.
+            {brand.hero.subtitle}
           </motion.p>
 
           <ul className="mt-6 flex flex-wrap gap-2">
