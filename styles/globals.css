@@ -1,29 +1,32 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-jakarta), system-ui, sans-serif;
-  --font-serif: var(--font-serif), Georgia, serif;
+  /* Eurostile = Typographie Corps (brief Agilly) */
+  --font-sans: 'Eurostile', var(--font-serif), 'Barlow', system-ui, sans-serif;
+  /* Arial Rounded MT Bold = Typographie Titres (brief Agilly) */
+  --font-serif: 'Arial Rounded MT Bold', var(--font-jakarta), 'Nunito', system-ui, sans-serif;
+  --font-display: 'Arial Rounded MT Bold', var(--font-jakarta), 'Nunito', system-ui, sans-serif;
 
-  --color-background: #f8f9fa;
+  --color-background: #fcfbfa;
   --color-paper: #ffffff;
   --color-warm: #faf8f5;
-  --color-ink: #191c1d;
-  --color-muted: #5a5f6a;
+  --color-ink: #0e131f;
+  --color-muted: #535b6a;
   --color-muted-variant: #6b6359;
   --color-outline: #e8e4de;
   --color-outline-light: #f0eeea;
 
   --color-primary: #f08222;
-  --color-primary-deep: #954a00;
+  --color-primary-deep: #c7610c;
   --color-primary-muted: #fff8f2;
   --color-accent: #0060ac;
-  --color-navy-cta: #1b263b;
+  --color-navy-cta: #111827;
 
-  --color-cyber-black: #191c1d;
-  --color-cyber-navy: #1b263b;
-  --color-cyber-surface: #f8f9fa;
+  --color-cyber-black: #0e131f;
+  --color-cyber-navy: #111827;
+  --color-cyber-surface: #fcfbfa;
   --color-cyber-white: #ffffff;
-  --color-cyber-gray: #5a5f6a;
+  --color-cyber-gray: #535b6a;
   --color-cyber-muted: #6b6359;
   --color-cyber-cyan: #f08222;
   --color-cyber-green: #f08222;
@@ -38,6 +41,10 @@
     @apply bg-background text-ink antialiased;
     font-family: var(--font-sans);
   }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+  }
 }
 
 @layer components {
@@ -49,32 +56,22 @@
     @apply px-6 py-20 lg:px-10 lg:py-28;
   }
 
+  /* Eyebrow — style agilly.net "// SECTION" */
   .eyebrow {
-    @apply text-[13px] font-medium text-primary-deep;
+    @apply inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.28em] text-[#f08222];
   }
 
+  /* Boutons rectangulaires — sans border-radius, comme agilly.net */
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-3 text-sm font-semibold text-white transition-opacity duration-200;
-  }
-
-  .btn-primary:hover {
-    @apply opacity-90;
+    @apply inline-flex items-center justify-center gap-3 bg-[#f08222] px-8 py-4 text-[13px] font-bold uppercase tracking-[0.16em] text-white transition-colors duration-300 hover:bg-[#d97210];
   }
 
   .btn-outline {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-outline bg-paper px-7 py-3 text-sm font-medium text-ink transition-colors duration-200;
-  }
-
-  .btn-outline:hover {
-    @apply border-primary/40 bg-primary-muted;
+    @apply inline-flex items-center justify-center gap-3 border-2 border-[#f08222] bg-transparent px-8 py-4 text-[13px] font-bold uppercase tracking-[0.16em] text-[#f08222] transition-colors duration-300 hover:bg-[#f08222] hover:text-white;
   }
 
   .btn-hero-outline {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-white/50 bg-white/10 px-7 py-3 text-sm font-medium text-white backdrop-blur-sm transition-colors duration-200;
-  }
-
-  .btn-hero-outline:hover {
-    @apply border-white bg-white/20;
+    @apply inline-flex items-center justify-center gap-3 border border-white/30 px-8 py-4 text-[13px] font-semibold uppercase tracking-[0.16em] text-white/70 transition-all duration-300 hover:border-white/70 hover:text-white;
   }
 
   .link-soft {

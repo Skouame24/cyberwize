@@ -6,7 +6,7 @@ export const easeMobbin = [0.22, 1, 0.36, 1] as [number, number, number, number]
 export const easeNotion = easeMobbin;
 
 export const springs = {
-  entry: { type: "spring", stiffness: 120, damping: 14 } as Transition,
+  entry: { type: "spring", stiffness: 50, damping: 14, mass: 0.8 } as Transition,
   hover: { type: "spring", stiffness: 300, damping: 20 } as Transition,
   soft: { type: "spring", stiffness: 90, damping: 18 } as Transition,
   snappy: { type: "spring", stiffness: 260, damping: 22 } as Transition,
@@ -14,20 +14,22 @@ export const springs = {
 
 /** Alias de fadeUp pour scroll reveal */
 export const fadeInUpScroll: Variants = {
-  hidden: { opacity: 0, y: 36 },
+  hidden: { opacity: 0, y: 36, scale: 0.98 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.7, ease: easeMobbin },
+    scale: 1,
+    transition: { type: "spring", stiffness: 45, damping: 15, mass: 0.8 },
   },
 };
 
 export const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 32 },
+  hidden: { opacity: 0, y: 32, scale: 0.98 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, ease: easeMobbin },
+    scale: 1,
+    transition: { type: "spring", stiffness: 50, damping: 14, mass: 0.8 },
   },
 };
 
@@ -36,18 +38,19 @@ export const staggerContainer: Variants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.07,
+      staggerChildren: 0.08,
       delayChildren: 0.06,
     },
   },
 };
 
 export const staggerItem: Variants = {
-  hidden: { opacity: 0, y: 32 },
+  hidden: { opacity: 0, y: 32, scale: 0.98 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: springs.entry,
+    scale: 1,
+    transition: { type: "spring", stiffness: 50, damping: 14, mass: 0.8 },
   },
 };
 

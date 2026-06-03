@@ -1,4 +1,4 @@
-export type PlanId = "essentiel" | "famille" | "premium";
+export type PlanId = "1device" | "3device" | "5device" | "10device";
 
 export type Plan = {
   id: PlanId;
@@ -14,58 +14,72 @@ export type Plan = {
 
 export const plans: Plan[] = [
   {
-    id: "essentiel",
-    name: "Essentiel",
-    tagline: "Pour démarrer sereinement",
-    audience: "1 à 3 appareils · foyer léger",
-    monthly: 9.99,
-    yearly: 7.99,
+    id: "1device",
+    name: "Harmony 1 Device",
+    tagline: "Protection individuelle",
+    audience: "1 Appareil (Mobile ou PC)",
+    monthly: 1000,
+    yearly: 9000,
+    perks: [
+      "Protection Check Point Harmony",
+      "Sécurisation mobile & PC",
+      "Anti-phishing & Anti-malware",
+      "Support Agilly 24/7"
+    ],
+  },
+  {
+    id: "3device",
+    name: "Harmony 3 Devices",
+    tagline: "Foyer connecté léger",
+    audience: "Jusqu'à 3 appareils",
+    monthly: 2500,
+    yearly: 22500,
     perks: [
       "3 appareils protégés",
-      "Antivirus temps réel",
-      "Filtrage web & anti-phishing",
-      "Support par email",
+      "Contrôle parental intelligent",
+      "Protection web avancée",
+      "Support Agilly 24/7"
     ],
   },
   {
-    id: "famille",
-    name: "Famille",
+    id: "5device",
+    name: "Harmony 5 Devices",
     tagline: "Le cœur de Cyberwize Family",
-    audience: "Jusqu'à 10 appareils · parents & enfants",
-    monthly: 14.99,
-    yearly: 11.99,
-    highlight: "Le plus choisi",
+    audience: "Jusqu'à 5 appareils · Idéal Famille",
+    monthly: 4000,
+    yearly: 36000,
+    highlight: "Le plus populaire",
     featured: true,
     perks: [
-      "10 appareils protégés",
-      "Contrôle parental avancé",
-      "VPN familial inclus",
-      "Éducation & sensibilisation",
-      "Support prioritaire",
+      "5 appareils protégés",
+      "Contrôle parental intelligent",
+      "Anti-ransomware & Sandboxing",
+      "Support SOC Agilly prioritaire"
     ],
   },
   {
-    id: "premium",
-    name: "Premium",
-    tagline: "Protection maximale",
-    audience: "Foyers exigeants & petites structures",
-    monthly: 24.99,
-    yearly: 19.99,
+    id: "10device",
+    name: "Harmony 10 Devices",
+    tagline: "Protection intégrale",
+    audience: "Jusqu'à 10 appareils · Famille & TPE",
+    monthly: 7500,
+    yearly: 67500,
     perks: [
-      "Appareils illimités",
-      "Dark web monitoring",
-      "Assistance 24/7",
-      "Gestion centralisée",
+      "10 appareils protégés",
+      "Contrôle parental multi-profils",
+      "Sandboxing ThreatCloud AI",
+      "Accompagnement SOC & assistance proactive"
     ],
   },
 ];
 
 export function recommendPlan(deviceCount: number): PlanId {
-  if (deviceCount <= 3) return "essentiel";
-  if (deviceCount <= 10) return "famille";
-  return "premium";
+  if (deviceCount <= 1) return "1device";
+  if (deviceCount <= 3) return "3device";
+  if (deviceCount <= 5) return "5device";
+  return "10device";
 }
 
 export function formatPrice(amount: number) {
-  return amount.toFixed(2).replace(".", ",") + "€";
+  return amount.toLocaleString("fr-FR") + " FCFA";
 }

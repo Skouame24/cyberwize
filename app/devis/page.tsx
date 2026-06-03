@@ -5,10 +5,9 @@ export default function DevisPage() {
   return (
     <>
       <PageHero
-        eyebrow="Demande de devis"
-        title="Demande de devis"
-        description="Devis PDF par email et lien d'essai 14 jours inclus."
-        highlights={["PDF automatique", "Essai inclus", "Réponse sous 24h"]}
+        eyebrow="Générer un devis"
+        title="Générer un devis"
+        description="Obtenez instantanément votre devis personnalisé par e-mail et commencez à protéger vos appareils."
       />
       <DevisContent />
     </>

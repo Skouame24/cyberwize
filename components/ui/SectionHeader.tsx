@@ -9,6 +9,7 @@ type SectionHeaderProps = {
   description?: string;
   align?: "left" | "center";
   className?: string;
+  theme?: "light" | "dark";
 };
 
 export function SectionHeader({
@@ -17,6 +18,7 @@ export function SectionHeader({
   description,
   align = "left",
   className,
+  theme = "light",
 }: SectionHeaderProps) {
   return (
     <Reveal
@@ -27,11 +29,17 @@ export function SectionHeader({
       )}
     >
       <p className="eyebrow">{eyebrow}</p>
-      <h2 className="mt-3 font-serif text-[1.75rem] leading-tight text-ink md:text-[2.25rem]">
+      <h2 className={cn(
+        "mt-3 font-serif text-[1.75rem] leading-tight md:text-[2.25rem]",
+        theme === "dark" ? "text-white" : "text-ink"
+      )}>
         {title}
       </h2>
       {description && (
-        <p className="mt-4 text-[15px] leading-relaxed text-muted md:text-base">{description}</p>
+        <p className={cn(
+          "mt-4 text-[15px] leading-relaxed md:text-base",
+          theme === "dark" ? "text-white/70" : "text-muted"
+        )}>{description}</p>
       )}
     </Reveal>
   );

@@ -29,7 +29,9 @@ export function DevisContent() {
           nom: fd.get("nom"),
           email: fd.get("email"),
           telephone: fd.get("telephone"),
+          entiteType: fd.get("entiteType"),
           entreprise: fd.get("entreprise"),
+          poste: fd.get("poste"),
           plan: fd.get("plan"),
           appareils: fd.get("appareils"),
           message: fd.get("message"),
@@ -51,11 +53,11 @@ export function DevisContent() {
       <section className="bg-paper">
         <div className="mx-auto max-w-xl section-pad text-center">
           <CheckCircle2 className="mx-auto h-14 w-14 text-primary" />
-          <h2 className="mt-6 font-serif text-2xl text-ink">Demande enregistrée</h2>
-          <p className="mt-3 text-muted">Référence : {result.reference}</p>
+          <h2 className="mt-6 font-serif text-2xl text-ink">Devis généré avec succès</h2>
+          <p className="mt-3 text-muted">Référence du devis : {result.reference}</p>
           <p className="mt-4 text-[15px] leading-relaxed text-muted">{result.message}</p>
           <Link href={result.trialLink} className="btn-primary mt-8 inline-flex items-center gap-2">
-            Accéder à l&apos;essai 14 jours
+            Activer mon essai gratuit 14 jours
             <ExternalLink className="h-4 w-4" />
           </Link>
         </div>
@@ -70,49 +72,64 @@ export function DevisContent() {
           <Reveal className="surface-soft">
             <div className="mb-6 flex items-center gap-2 text-primary-deep">
               <FileText className="h-5 w-5" />
-              <span className="text-sm font-medium">Devis PDF automatique + email</span>
+              <span className="text-sm font-medium">Générer un devis PDF immédiat</span>
             </div>
             <form className="space-y-4" onSubmit={handleSubmit}>
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <label className="mb-1 block text-sm font-medium">Nom *</label>
-                  <input name="nom" className="input-soft" required />
+                  <input name="nom" className="input-soft" placeholder="Votre nom" required />
                 </div>
                 <div>
                   <label className="mb-1 block text-sm font-medium">Email *</label>
-                  <input name="email" type="email" className="input-soft" required />
+                  <input name="email" type="email" className="input-soft" placeholder="votre@email.com" required />
                 </div>
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <label className="mb-1 block text-sm font-medium">Téléphone</label>
-                  <input name="telephone" type="tel" className="input-soft" />
+                  <input name="telephone" type="tel" className="input-soft" placeholder="+225 ..." />
                 </div>
                 <div>
-                  <label className="mb-1 block text-sm font-medium">Entreprise (TPE/PME)</label>
-                  <input name="entreprise" className="input-soft" />
+                  <label className="mb-1 block text-sm font-medium">Type d&apos;entité *</label>
+                  <select name="entiteType" className="input-soft" required defaultValue="Particulier">
+                    <option value="Particulier">Particulier / Foyer</option>
+                    <option value="Entreprise">Entreprise / PME</option>
+                    <option value="Ecole">Établissement scolaire / Autre</option>
+                  </select>
+                </div>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label className="mb-1 block text-sm font-medium">Nom de l&apos;entité / entreprise</label>
+                  <input name="entreprise" className="input-soft" placeholder="Nom de l'entreprise ou école" />
+                </div>
+                <div>
+                  <label className="mb-1 block text-sm font-medium">Votre poste / rôle</label>
+                  <input name="poste" className="input-soft" placeholder="Ex: Parent, IT Manager, Directeur..." />
                 </div>
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <label className="mb-1 block text-sm font-medium">Offre souhaitée</label>
-                  <select name="plan" className="input-soft" defaultValue="Famille">
-                    <option>Essentiel</option>
-                    <option>Famille</option>
-                    <option>Premium</option>
+                  <select name="plan" className="input-soft" defaultValue="Harmony 5 Devices">
+                    <option>Harmony 1 Device</option>
+                    <option>Harmony 3 Devices</option>
+                    <option>Harmony 5 Devices</option>
+                    <option>Harmony 10 Devices</option>
                   </select>
                 </div>
                 <div>
-                  <label className="mb-1 block text-sm font-medium">Appareils</label>
+                  <label className="mb-1 block text-sm font-medium">Nombre d&apos;appareils</label>
                   <input name="appareils" type="number" min={1} className="input-soft" defaultValue={5} />
                 </div>
               </div>
               <div>
-                <label className="mb-1 block text-sm font-medium">Message</label>
-                <textarea name="message" className="textarea-soft" rows={4} />
+                <label className="mb-1 block text-sm font-medium">Description de vos besoins spécifiques</label>
+                <textarea name="message" className="textarea-soft" placeholder="Décrivez ici vos besoins spécifiques en sécurité, contrôle parental, type d'appareils..." rows={4} />
               </div>
               <button type="submit" className="btn-primary w-full" disabled={loading}>
-                {loading ? "Génération du devis…" : "Recevoir mon devis + essai 14 jours"}
+                {loading ? "Génération du devis…" : "Générer mon devis"}
               </button>
             </form>
           </Reveal>
@@ -123,7 +140,7 @@ export function DevisContent() {
               {items.length === 0 ? (
                 <p className="mt-3 text-sm text-muted">
                   Vide —{" "}
-                  <Link href="/boutique" className="link-soft">
+                  <Link href="/offres" className="link-soft">
                     ajouter une offre
                   </Link>
                 </p>

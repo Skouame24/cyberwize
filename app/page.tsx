@@ -10,6 +10,7 @@ import { CaseStudies } from "@/components/sections/CaseStudies";
 import { Pricing } from "@/components/sections/Pricing";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { CtaFinal } from "@/components/sections/CtaFinal";
+
 export default function HomePage() {
   return (
     <>

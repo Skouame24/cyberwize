@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { Download, CheckCircle2, Shield } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 
@@ -13,6 +14,11 @@ const steps = [
 ];
 
 export function EssaiContent() {
+  const searchParams = useSearchParams();
+  const refParam = searchParams.get("ref");
+  const emailParam = searchParams.get("email") || "";
+  const nomParam = searchParams.get("nom") || "";
+
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
 
@@ -31,16 +37,9 @@ export function EssaiContent() {
           <CheckCircle2 className="mx-auto h-14 w-14 text-primary" />
           <h2 className="mt-6 font-serif text-2xl text-ink">Accès essai activé</h2>
           <p className="mt-3 text-muted">
-            Consultez votre email pour le lien de téléchargement sécurisé et vos identifiants.
+            Consultez votre e-mail pour le lien de téléchargement sécurisé et vos identifiants de connexion.
           </p>
-          <button
-            type="button"
-            className="btn-primary mt-8 inline-flex items-center gap-2"
-            onClick={() => alert("Téléchargement — branchez votre installateur ici.")}
-          >
-            <Download className="h-4 w-4" />
-            Télécharger l&apos;installateur
-          </button>
+
         </div>
       </section>
     );
@@ -73,10 +72,20 @@ export function EssaiContent() {
           </Reveal>
 
           <Reveal className="surface-soft">
-            <h3 className="font-serif text-xl text-ink">Demander l&apos;accès</h3>
+            {refParam ? (
+              <div className="mb-6 rounded-xl bg-primary-muted border border-primary/25 p-5">
+                <p className="text-sm font-semibold text-primary-deep flex items-center gap-2">
+                  <CheckCircle2 className="h-4.5 w-4.5 shrink-0 text-primary" />
+                  Devis {refParam} généré & envoyé !
+                </p>
+
+              </div>
+            ) : (
+              <h3 className="font-serif text-xl text-ink">Demander l&apos;accès</h3>
+            )}
             <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
-              <input name="nom" className="input-soft" placeholder="Nom *" required />
-              <input name="email" type="email" className="input-soft" placeholder="Email *" required />
+              <input name="nom" className="input-soft" placeholder="Nom *" defaultValue={nomParam} required />
+              <input name="email" type="email" className="input-soft" placeholder="Email *" defaultValue={emailParam} required />
               <input name="tel" type="tel" className="input-soft" placeholder="Téléphone" />
               <input
                 name="appareils"
@@ -85,6 +94,7 @@ export function EssaiContent() {
                 max={20}
                 className="input-soft"
                 placeholder="Nombre d'appareils"
+                defaultValue={5}
               />
               <button type="submit" className="btn-primary w-full" disabled={loading}>
                 {loading ? "Activation…" : "Activer mon essai 14 jours"}
@@ -93,7 +103,7 @@ export function EssaiContent() {
             <p className="mt-4 text-xs text-muted">
               Besoin d&apos;un devis PDF ?{" "}
               <Link href="/devis" className="link-soft">
-                Demande de devis
+                Générer un devis
               </Link>
             </p>
           </Reveal>

@@ -26,18 +26,18 @@ export const brand = {
 /** Visuels — cybersécurité familiale (Unsplash, peaux noires, usage numérique) */
 export const demoPhotos = [
   {
-    src: "https://images.unsplash.com/photo-1640622304233-7335e936f11b?w=800&q=80",
-    alt: "Père et enfants consultant un ordinateur portable ensemble à la maison",
+    src: "/family_laptop_black.png",
+    alt: "Père et enfants consultant un ordinateur portable ensemble à la maison en toute sécurité",
     caption: "Chaque membre du foyer, protégé en ligne",
   },
   {
-    src: "https://images.unsplash.com/photo-1666102723236-682f868c84bd?w=800&q=80",
-    alt: "Parents surveillant l'écran d'un ordinateur pour sécuriser la navigation",
+    src: "/mother_daughter_tablet_black.png",
+    alt: "Mère et fille consultent une tablette numérique dans un cadre serein",
     caption: "Contrôle parental respectueux",
   },
   {
-    src: "https://images.unsplash.com/photo-1573164574230-db1d5e960238?w=800&q=80",
-    alt: "Femme vérifiant les alertes sur son téléphone et son ordinateur",
+    src: "/black_woman_phone.png",
+    alt: "Femme professionnelle vérifiant les alertes de sécurité sur son smartphone",
     caption: "Alertes claires, sans jargon",
   },
 ] as const;

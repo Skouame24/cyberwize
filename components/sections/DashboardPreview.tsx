@@ -1,8 +1,20 @@
 "use client";
 
-import { motion, AnimatePresence } from "motion/react";
-import { useState, useEffect } from "react";
-import { Activity, Lock, Eye, Zap, Terminal, Cpu } from "lucide-react";
+import { motion, AnimatePresence, useScroll, useTransform, useInView } from "motion/react";
+import { useState, useEffect, useRef } from "react";
+import { Activity, Lock, Eye, Terminal } from "lucide-react";
+import { brand } from "@/lib/brand-copy";
+
+/*
+ * SECTION : DASHBOARD PREVIEW
+ *
+ * Animations humaines et créatives :
+ * 1. Le Dashboard entre avec une rotation 3D (perspective) et un scale, 
+ *    comme si on posait un écran devant soi, pas juste un "fade up".
+ * 2. Le texte de gauche utilise la technique "TextReveal" ligne par ligne
+ *    déjà validée, pour une cohérence éditoriale.
+ * 3. Effet parallaxe léger sur l'ensemble de la section.
+ */
 
 interface SecurityLog {
   id: number;
@@ -13,8 +25,37 @@ interface SecurityLog {
   severity: "critical" | "low" | "medium";
 }
 
+function TextRevealLine({ text, delay = 0 }: { text: string, delay?: number }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.3 });
+  
+  return (
+    <div ref={ref} className="overflow-hidden">
+      <motion.p
+        initial={{ y: "110%" }}
+        animate={isInView ? { y: 0 } : {}}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay }}
+        className="text-[15px] leading-[1.8] text-white/70"
+      >
+        {text}
+      </motion.p>
+    </div>
+  );
+}
+
 export function DashboardPreview() {
   const [logs, setLogs] = useState<SecurityLog[]>([]);
+  const sectionRef = useRef<HTMLElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(textRef, { once: true, amount: 0.3 });
+
+  // Parallaxe douce
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
+  const dashRotate = useTransform(scrollYProgress, [0, 1], [8, -2]);
 
   useEffect(() => {
     const types: SecurityLog["type"][] = ["blocked", "monitored", "alert"];
@@ -35,162 +76,142 @@ export function DashboardPreview() {
           severity,
         },
         ...prev,
-      ].slice(0, 5));
+      ].slice(0, 4)); // Limité à 4 pour garder la même hauteur
     };
 
     add();
-    const interval = setInterval(add, 2500);
+    const interval = setInterval(add, 2800);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-white py-24 md:py-28 lg:py-32">
-      <div className="absolute inset-0 bg-agilly-gradient opacity-[0.4]" />
+    <section ref={sectionRef} className="relative overflow-hidden bg-[#0a0d14] py-24 md:py-28 lg:py-32">
+      {/* ── Background minimaliste ── */}
+      <motion.div className="absolute inset-0 pointer-events-none" style={{ y }}>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(240,130,34,0.06)_0%,transparent_60%)]" />
+      </motion.div>
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 sm:px-8">
-        <div className="grid items-start gap-14 lg:grid-cols-2 lg:gap-16">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 sm:px-10 lg:px-16">
+        <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-16">
 
-          {/* ── Colonne gauche : texte + stats ── */}
-          <div>
+          {/* ── Colonne gauche : texte ── */}
+          <div ref={textRef} className="space-y-6">
             <motion.div
-              initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "0px 0px -50px 0px" }}
+              initial={{ clipPath: "inset(0 100% 0 0)" }}
+              animate={isInView ? { clipPath: "inset(0 0% 0 0)" } : {}}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="mb-5 inline-flex items-center gap-2 rounded-full border border-ink/10 bg-soft-gray/80 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-ink/55"
+              className="mb-8 inline-flex items-center gap-3"
             >
-              <div className="h-2 w-2 animate-pulse rounded-full bg-primary" />
-              Alertes en direct
+              <span className="font-bold text-[#f08222] text-[11px]">//</span>
+              <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-[#f08222]">
+                Votre tableau de bord
+              </span>
             </motion.div>
 
-            <p className="eyebrow mt-2">Votre tableau de bord</p>
-            <h2 className="mt-3 font-serif text-[1.75rem] text-ink md:text-[2.25rem]">
-              Tout le foyer,{" "}
-              <span className="italic text-primary">en un coup d&apos;œil</span>
-            </h2>
+            <div className="overflow-hidden mb-6">
+              <motion.h2
+                initial={{ y: "110%" }}
+                animate={isInView ? { y: 0 } : {}}
+                transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+                className="font-serif text-[clamp(2rem,3.5vw,2.8rem)] font-bold leading-[1.05] text-white"
+              >
+                Tout le foyer, <br />
+                <span className="text-[#f08222]">en un coup d'œil</span>
+              </motion.h2>
+            </div>
 
-            <p className="mb-10 mt-4 max-w-xl text-[15px] leading-relaxed text-muted">
-              Menaces bloquées, appareils protégés et alertes claires — pour agir vite sans être
-              expert.
-            </p>
+            <div className="space-y-3">
+              <TextRevealLine text="Menaces bloquées, appareils protégés et alertes claires" delay={0.3} />
+              <TextRevealLine text="— pour agir vite sans être un expert informatique." delay={0.4} />
+            </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div className="rounded-2xl border border-ink/[0.06] bg-gradient-to-br from-sky-50/60 to-white p-6 transition-all hover:border-accent/25">
-                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-white shadow-sm">
-                  <Cpu className="h-5 w-5 text-ink" strokeWidth={1.6} />
-                </div>
-                <p className="mb-1 font-serif text-3xl text-ink">12</p>
-                <p className="text-xs font-medium text-muted">Menaces bloquées / semaine</p>
-              </div>
-              <div className="rounded-2xl border border-primary/15 bg-gradient-to-br from-primary/[0.07] to-white p-6 transition-all hover:border-primary/30">
-                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-white shadow-sm">
-                  <Zap className="h-5 w-5 text-primary" strokeWidth={1.6} />
-                </div>
-                <p className="mb-1 font-serif text-3xl text-ink">5</p>
-                <p className="text-xs font-medium text-muted">Appareils protégés</p>
-              </div>
+            {/* Chiffres animés */}
+            <div className="mt-10 grid grid-cols-2 gap-6 border-t border-white/10 pt-8">
+              {[
+                { v: "12", l: "Menaces stoppées" },
+                { v: "5", l: "Appareils actifs" }
+              ].map((s, i) => (
+                <motion.div
+                  key={s.l}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, delay: 0.6 + i * 0.1 }}
+                >
+                  <p className="font-sans text-[2.5rem] font-black text-white leading-none">{s.v}</p>
+                  <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.15em] text-[#f08222]">{s.l}</p>
+                </motion.div>
+              ))}
             </div>
           </div>
 
-          {/* ── Colonne droite : dashboard live ── */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: "0px 0px -50px 0px" }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            className="relative rounded-[2.5rem] border border-ink/[0.06] bg-gradient-to-br from-ink/[0.04] via-transparent to-primary/10 p-2"
-          >
-            <div className="relative overflow-hidden rounded-[2.35rem] border border-ink/[0.06] bg-white p-8 shadow-xl sm:p-10">
-              <div className="absolute inset-0 grid-pattern opacity-[0.03]" />
-
-              <div className="relative z-10">
-                {/* Header barre */}
-                <div className="mb-10 flex items-center justify-between border-b border-black/[0.05] pb-6">
-                  <div className="flex items-center gap-3">
-                    <div className="h-3 w-3 rounded-full bg-black/5" />
-                    <div className="h-3 w-3 rounded-full bg-black/5" />
-                    <div className="h-3 w-3 rounded-full bg-black/5" />
-                  </div>
-                  <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.3em] text-black/20">
-                    <Terminal className="h-4 w-4" />
-                    SENTINEL_DASHBOARD_v4
-                  </div>
+          {/* ── Colonne droite : dashboard live (3D Rotate In) ── */}
+          <div className="perspective-[1000px]">
+            <motion.div
+              initial={{ opacity: 0, rotateX: 15, rotateY: -10, scale: 0.95 }}
+              whileInView={{ opacity: 1, rotateX: 0, rotateY: 0, scale: 1 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+              style={{ rotateX: dashRotate }} // rotation liée au scroll
+              className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#0e131f] shadow-2xl shadow-black/50"
+            >
+              {/* Header UI */}
+              <div className="flex items-center justify-between border-b border-white/5 bg-white/5 px-6 py-4">
+                <div className="flex gap-2">
+                  <div className="h-2.5 w-2.5 rounded-full bg-white/20" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-white/20" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-white/20" />
                 </div>
-
-                {/* Feed logs — hauteur fixe pour ne pas décaler la colonne texte */}
-                <div className="mb-10 h-[26rem] overflow-hidden">
-                  <AnimatePresence initial={false}>
-                    {logs.map((log) => (
-                      <motion.div
-                        key={log.id}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 20 }}
-                        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                        className="mb-3 flex items-center justify-between rounded-2xl border border-black/[0.02] bg-gray-50/50 p-5 transition-all hover:border-black/[0.08] hover:bg-white"
-                      >
-                        <div className="flex items-center gap-5">
-                          <div
-                            className={`flex h-12 w-12 items-center justify-center rounded-xl transition-all ${
-                              log.type === "alert"
-                                ? "bg-red-50 text-red-500"
-                                : log.type === "blocked"
-                                ? "bg-green-50 text-green-600"
-                                : "bg-black/5 text-black/50"
-                            }`}
-                          >
-                            {log.type === "alert" ? (
-                              <Activity size={20} />
-                            ) : log.type === "blocked" ? (
-                              <Lock size={20} />
-                            ) : (
-                              <Eye size={20} />
-                            )}
-                          </div>
-                          <div>
-                            <p className="text-sm font-black uppercase tracking-tighter text-black">
-                              {log.source}
-                            </p>
-                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-black/20">
-                              {log.timestamp}
-                            </p>
-                          </div>
-                        </div>
-
-                        <span
-                          className={`rounded-full px-3 py-1 text-[9px] font-black uppercase tracking-widest ${
-                            log.severity === "critical"
-                              ? "bg-red-500 text-white"
-                              : log.severity === "medium"
-                              ? "bg-primary text-white"
-                              : "bg-ink/[0.06] text-ink/45"
-                          }`}
-                        >
-                          {log.severity}
-                        </span>
-                      </motion.div>
-                    ))}
-                  </AnimatePresence>
-                </div>
-
-                {/* Stats footer */}
-                <div className="grid grid-cols-3 gap-6 border-t border-black/[0.05] pt-8">
-                  <div className="text-center">
-                    <p className="mb-2 text-[9px] font-bold uppercase text-black/20">Threats</p>
-                    <p className="font-sans text-2xl font-black tracking-tight text-black">148k</p>
-                  </div>
-                  <div className="border-x border-black/[0.05] text-center">
-                    <p className="mb-2 text-[9px] font-bold uppercase text-black/20">Nodes</p>
-                    <p className="font-sans text-2xl font-black tracking-tight text-black">2.4k</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="mb-2 text-[9px] font-bold uppercase text-black/20">Load</p>
-                    <p className="text-2xl font-semibold tracking-tight text-primary">Active</p>
-                  </div>
+                <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.2em] text-white/30">
+                  <Terminal className="h-3 w-3" />
+                  Live Activity
                 </div>
               </div>
-            </div>
-          </motion.div>
+
+              {/* Contenu */}
+              <div className="p-6 h-[400px] overflow-hidden">
+                <AnimatePresence initial={false}>
+                  {logs.map((log) => (
+                    <motion.div
+                      key={log.id}
+                      initial={{ opacity: 0, height: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, height: "auto", scale: 1 }}
+                      exit={{ opacity: 0, height: 0, scale: 0.9 }}
+                      transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                      className="mb-3"
+                    >
+                      <div className="flex items-center justify-between rounded-xl border border-white/5 bg-white/[0.02] p-4">
+                        <div className="flex items-center gap-4">
+                          <div
+                            className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${
+                              log.type === "alert"
+                                ? "bg-red-500/10 text-red-400"
+                                : log.type === "blocked"
+                                ? "bg-green-500/10 text-green-400"
+                                : "bg-white/5 text-[#f08222]"
+                            }`}
+                          >
+                            {log.type === "alert" ? <Activity size={18} /> : log.type === "blocked" ? <Lock size={18} /> : <Eye size={18} />}
+                          </div>
+                          <div>
+                            <p className="text-[13px] font-bold text-white">{log.source}</p>
+                            <p className="text-[11px] text-white/40">{log.target}</p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <span className={`inline-block px-2 py-1 text-[9px] font-black uppercase tracking-widest rounded ${
+                            log.severity === "critical" ? "bg-red-500 text-white" : log.severity === "medium" ? "bg-[#f08222] text-white" : "bg-white/10 text-white/60"
+                          }`}>
+                            {log.severity}
+                          </span>
+                          <p className="mt-1 text-[10px] font-medium text-white/30">{log.timestamp}</p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
+            </motion.div>
+          </div>
 
         </div>
       </div>

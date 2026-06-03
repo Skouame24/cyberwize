@@ -71,13 +71,19 @@ export const cascade: Variants = {
   },
 };
 
-/** Entrée au scroll — visible sans être agressive */
 export const softReveal = (delay = 0): Variants => ({
-  hidden: { opacity: 0, y: 36 },
+  hidden: { opacity: 0, y: 40, scale: 0.98 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.75, ease: ease.out, delay },
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 40,
+      damping: 15,
+      mass: 0.8,
+      delay,
+    },
   },
 });
 
@@ -89,12 +95,17 @@ export const softStagger: Variants = {
 };
 
 export const softItem: Variants = {
-  hidden: { opacity: 0, y: 28, scale: 0.98 },
+  hidden: { opacity: 0, y: 30, scale: 0.97 },
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { duration: 0.6, ease: ease.out },
+    transition: {
+      type: "spring",
+      stiffness: 50,
+      damping: 14,
+      mass: 0.8,
+    },
   },
 };
 

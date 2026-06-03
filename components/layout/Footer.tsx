@@ -31,12 +31,18 @@ export function Footer() {
 
           <div>
             <p className="text-sm font-medium text-ink">Contact</p>
-            <p className="mt-3 text-muted">Cocody, Abidjan</p>
+            <p className="mt-3 text-muted">Résidence Emeraude II, 2 Plateau Aghien Las Palmas, Abidjan</p>
             <a
-              href="mailto:contact@cyberwizefamily.com"
+              href="mailto:infos@agilly.net"
               className="mt-2 block text-muted hover:text-primary"
             >
-              contact@cyberwizefamily.com
+              infos@agilly.net
+            </a>
+            <a
+              href="mailto:commercial@agilly.net"
+              className="mt-1 block text-muted hover:text-primary"
+            >
+              commercial@agilly.net
             </a>
             <a href="tel:+2252525001422" className="mt-1 block text-muted hover:text-primary">
               +225 25 25 001 422

@@ -4,6 +4,7 @@
 export const mainNavLinks = [
   { label: "Accueil", href: "/" },
   { label: "Offres", href: "/offres" },
+  { label: "Blog", href: "/blog" },
   { label: "À propos", href: "/about" },
   { label: "Contact", href: "/contact" },
 ] as const;
@@ -12,7 +13,6 @@ export const mainNavLinks = [
 export const footerLinks = [
   { label: "Essai gratuit", href: "/essai" },
   { label: "Demande de devis", href: "/devis" },
-  { label: "Boutique", href: "/boutique" },
   { label: "Blog", href: "/blog" },
   { label: "Support", href: "/support" },
 ] as const;

@@ -12,14 +12,14 @@ export function CartButton({ className }: { className?: string }) {
     <Link
       href="/panier"
       className={cn(
-        "relative rounded-lg p-2 text-ink transition-colors hover:bg-warm",
+        "relative flex h-10 w-10 items-center justify-center rounded-full text-black transition-colors hover:bg-black/5",
         className
       )}
       aria-label={`Panier${count > 0 ? `, ${count} article(s)` : ""}`}
     >
-      <ShoppingCart className="h-5 w-5" />
+      <ShoppingCart className="h-5 w-5" strokeWidth={1.8} />
       {count > 0 && (
-        <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-white">
+        <span className="absolute right-0 top-0 flex h-4 w-4 items-center justify-center rounded-full bg-[#f08222] text-[9px] font-bold text-white">
           {count}
         </span>
       )}

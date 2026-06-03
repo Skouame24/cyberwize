@@ -7,10 +7,8 @@ export default function AboutPage() {
     <>
       <PageHero
         eyebrow="À propos"
-        title="Cyberwize Family & Agilly"
+        title="L'expertise professionnelle, repensée pour les familles"
         description="Votre gardien numérique familial — conçu en Côte d'Ivoire, pour les foyers d'ici et d'ailleurs."
-        highlights={["Vision & mission", "Équipe en Côte d'Ivoire", "Depuis 2014"]}
-        image="/hero-bg.png"
       />
       <AboutContent />
       <CtaFinal />

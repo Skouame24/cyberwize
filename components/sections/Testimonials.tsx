@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { Marquee } from "@/components/ui/Marquee";
 import { CheckCircle2 } from "lucide-react";
 import { fadeInUpScroll, mobbinCardHover, mobbinCardTap } from "@/lib/animations";
+import { Reveal } from "@/components/ui/Reveal";
 
 const testimonials = [
   {
@@ -56,9 +57,10 @@ export function Testimonials() {
         </p>
       </motion.div>
 
-      <div className="relative">
+      <Reveal delay={0.12} className="relative">
         <Marquee
           speed={36}
+          itemClassName="opacity-100 hover:opacity-100"
           items={testimonials.map((t, i) => (
             <div key={i} className="w-[min(100vw-2rem,440px)] shrink-0 px-3 py-2 md:px-4">
               <motion.article
@@ -86,7 +88,8 @@ export function Testimonials() {
             </div>
           ))}
         />
-      </div>
+      </Reveal>
     </section>
   );
 }
+

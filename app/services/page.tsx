@@ -6,9 +6,9 @@ export default function ServicesPage() {
   return (
     <>
       <PageHero
-        eyebrow="Produits"
-        title="Nos produits"
-        description="Protection, contrôle parental, navigation sécurisée et formation."
+        eyebrow="Produits & Services"
+        title="Cyberwize Endpoint & Mobile Security"
+        description="Protection avancée des postes et terminaux mobiles, managée 24/7 par AGILLY."
       />
       <ServicesContent />
       <CtaFinal />

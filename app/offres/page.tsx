@@ -6,10 +6,14 @@ export default function OffresPage() {
   return (
     <>
       <PageHero
-        eyebrow="Offres"
-        title="Nos offres et tarifs"
-        description="Tarifs clairs, essai gratuit 14 jours, expertise Agilly."
-        highlights={["Essai 14 jours", "Sans engagement", "Support humain"]}
+        eyebrow="Offres & Tarifs"
+        title={
+          <>
+            La tranquillité d'esprit <br />
+            <span className="italic text-black/40">au juste prix.</span>
+          </>
+        }
+        description="Une tarification transparente, pensée pour s'adapter à la taille de votre foyer. Bénéficiez de toute l'expertise Agilly avec un essai gratuit de 14 jours, sans engagement."
       />
       <OffresContent />
       <CtaFinal />

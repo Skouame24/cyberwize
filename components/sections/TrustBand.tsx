@@ -1,14 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import { Reveal } from "@/components/ui/Reveal";
-
-const AGILLY_LOGO =
-  "https://lh3.googleusercontent.com/aida/ADBb0ugJ7nkKv4KNTm1hBuo1qXak8WoiPfgguZEx9UldYvRSQHTg_c9KpIn2bLXK7a9nCKHQ-EqyZ8G1e1VtOPNUvsoDbE6fh4peGi4jni7s3mEdD7XoPDGBZvysePITafeb0zTmPP_k5NOPi3sbLb7jQnXVaSK_Y0-WSCva8Qp6tzxIPZHN8p6JcgyoGrth7JgPylZOsqV8kuzkV1_qvjTXPhSU2W_13VzvkdV58A_-N2aheOC-24k1gtMFXgU";
 
 export function TrustBand() {
   return (
-    <section className="border-y border-outline bg-paper">
+    <section className="border-y border-outline bg-[#f8f9fa]">
       <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-8 section-pad !py-12 md:flex-row md:items-center">
         <Reveal className="max-w-lg">
           <p className="eyebrow">Propulsé par Agilly</p>
@@ -18,13 +14,15 @@ export function TrustBand() {
           </p>
         </Reveal>
         <Reveal delay={0.12}>
-          <Image
-            src={AGILLY_LOGO}
-            alt="Agilly"
-            width={120}
-            height={48}
-            className="h-11 w-auto opacity-90"
-          />
+          <div className="flex flex-col items-start leading-none opacity-90">
+            <div className="font-serif text-3xl font-bold tracking-tight select-none">
+              <span className="text-[#191c1d]">agil</span>
+              <span className="text-[#f08222]">ly</span>
+            </div>
+            <span className="text-[7.5px] uppercase tracking-[0.18em] text-[#5a5f6a] mt-1.5 font-sans font-semibold select-none">
+              Cloud & Cyber Sécurité
+            </span>
+          </div>
         </Reveal>
       </div>
     </section>
