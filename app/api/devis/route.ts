@@ -30,7 +30,7 @@ export async function POST(request: Request) {
       reference,
       trialLink,
       message:
-        `Votre devis personnalisé a été généré avec succès ! Un e-mail contenant le devis PDF a été envoyé à ${email}. Pour tester immédiatement notre solution et bénéficier de 14 jours gratuits, cliquez sur le bouton d'activation ci-dessous.`,
+        `Votre devis personnalisé a été généré avec succès ! Un e-mail contenant le devis PDF a été envoyé à ${email}. Veuillez ouvrir cet e-mail et cliquer sur le lien d'activation inclus pour démarrer vos 14 jours d'essai gratuit.`,
     });
   } catch {
     return NextResponse.json({ error: "Erreur serveur." }, { status: 500 });

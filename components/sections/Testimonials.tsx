@@ -66,7 +66,7 @@ export function Testimonials() {
               <motion.article
                 whileHover={mobbinCardHover}
                 whileTap={mobbinCardTap}
-                className="flex h-full cursor-default flex-col rounded-lg border border-ink/[0.08] bg-soft-bg p-6 shadow-[0_1px_2px_rgba(10,14,20,0.04)]"
+                className="flex h-full cursor-default flex-col rounded-none border border-ink/[0.08] bg-soft-bg p-6 shadow-[0_1px_2px_rgba(10,14,20,0.04)]"
               >
                 <div className="flex items-center justify-between gap-2">
                   <span className="inline-flex items-center gap-1.5 text-xs font-medium text-muted">
@@ -76,7 +76,7 @@ export function Testimonials() {
                 </div>
                 <p className="mt-4 flex-1 text-[15px] leading-relaxed text-ink">&ldquo;{t.quote}&rdquo;</p>
                 <div className="mt-6 flex items-center gap-3 border-t border-ink/[0.06] pt-5">
-                  <div className="h-10 w-10 shrink-0 overflow-hidden rounded-md border border-ink/[0.08] bg-white">
+                  <div className="h-10 w-10 shrink-0 overflow-hidden rounded-none border border-ink/[0.08] bg-white">
                     <img src={t.avatar} alt="" className="h-full w-full object-cover" width={40} height={40} />
                   </div>
                   <div>

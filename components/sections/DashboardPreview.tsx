@@ -152,7 +152,7 @@ export function DashboardPreview() {
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
               style={{ rotateX: dashRotate }} // rotation liée au scroll
-              className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#0e131f] shadow-2xl shadow-black/50"
+              className="relative overflow-hidden rounded-none border border-white/10 bg-[#0e131f] shadow-2xl shadow-black/50"
             >
               {/* Header UI */}
               <div className="flex items-center justify-between border-b border-white/5 bg-white/5 px-6 py-4">
@@ -179,10 +179,10 @@ export function DashboardPreview() {
                       transition={{ type: "spring", stiffness: 200, damping: 20 }}
                       className="mb-3"
                     >
-                      <div className="flex items-center justify-between rounded-xl border border-white/5 bg-white/[0.02] p-4">
+                      <div className="flex items-center justify-between rounded-none border border-white/5 bg-white/[0.02] p-4">
                         <div className="flex items-center gap-4">
                           <div
-                            className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${
+                            className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-none ${
                               log.type === "alert"
                                 ? "bg-red-500/10 text-red-400"
                                 : log.type === "blocked"
@@ -198,7 +198,7 @@ export function DashboardPreview() {
                           </div>
                         </div>
                         <div className="text-right">
-                          <span className={`inline-block px-2 py-1 text-[9px] font-black uppercase tracking-widest rounded ${
+                          <span className={`inline-block px-2 py-1 text-[9px] font-black uppercase tracking-widest rounded-none ${
                             log.severity === "critical" ? "bg-red-500 text-white" : log.severity === "medium" ? "bg-[#f08222] text-white" : "bg-white/10 text-white/60"
                           }`}>
                             {log.severity}

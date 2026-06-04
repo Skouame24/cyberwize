@@ -54,12 +54,38 @@ export function DevisContent() {
         <div className="mx-auto max-w-xl section-pad text-center">
           <CheckCircle2 className="mx-auto h-14 w-14 text-primary" />
           <h2 className="mt-6 font-serif text-2xl text-ink">Devis généré avec succès</h2>
-          <p className="mt-3 text-muted">Référence du devis : {result.reference}</p>
-          <p className="mt-4 text-[15px] leading-relaxed text-muted">{result.message}</p>
-          <Link href={result.trialLink} className="btn-primary mt-8 inline-flex items-center gap-2">
-            Activer mon essai gratuit 14 jours
-            <ExternalLink className="h-4 w-4" />
-          </Link>
+          <p className="mt-3 text-sm font-bold uppercase tracking-widest text-[#f08222]">
+            Référence du devis : {result.reference}
+          </p>
+          
+          <p className="mt-6 text-[15px] leading-relaxed text-muted">
+            {result.message}
+          </p>
+
+          <div className="mt-10 flex justify-center">
+            <Link href="/" className="btn-primary">
+              Retour à l&apos;accueil
+            </Link>
+          </div>
+
+          {/* Zone de Simulation pour phase de test */}
+          <div className="mt-12 border-t border-outline/50 pt-8 text-left">
+            <div className="mx-auto max-w-md bg-[#fffcf9] border border-[#f08222]/20 p-6 rounded-none shadow-sm text-center">
+              <p className="text-xs font-bold uppercase tracking-wider text-[#f08222]">
+                🛠️ Simulation de boîte mail (Développement)
+              </p>
+              <p className="mt-2 text-[12px] text-muted leading-relaxed">
+                Puisqu&apos;il s&apos;agit d&apos;un prototype, vous pouvez simuler le clic sur le lien reçu dans votre boîte de messagerie ci-dessous :
+              </p>
+              <Link
+                href={result.trialLink}
+                className="mt-4 inline-flex items-center justify-center gap-2 bg-[#0e131f] text-white px-5 py-2.5 text-[12px] font-bold uppercase tracking-wider transition-colors hover:bg-[#f08222] rounded-none shadow-sm"
+              >
+                Simuler le clic dans le mail
+                <ExternalLink className="h-3.5 w-3.5" />
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
     );

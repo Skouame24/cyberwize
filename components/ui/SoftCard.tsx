@@ -14,7 +14,7 @@ export function SoftCard({ children, className, accent }: SoftCardProps) {
   return (
     <motion.div
       className={cn(
-        "group relative overflow-hidden rounded-[1.25rem] bg-white p-7 lg:p-8",
+        "group relative overflow-hidden rounded-none bg-white p-7 lg:p-8",
         "border border-[#ebe8e4] shadow-[0_2px_0_#f5f2ee,0_12px_40px_-20px_rgba(149,74,0,0.12)]",
         accent && "md:col-span-2 md:row-span-2",
         className

@@ -33,7 +33,7 @@ function DeviceGrid({ count }: { count: number }) {
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
               exit={{ opacity: 0, scale: 0.5, rotate: 10 }}
               transition={{ duration: 0.3, type: "spring", stiffness: 200, damping: 15 }}
-              className="flex h-12 w-12 items-center justify-center rounded-2xl bg-black/5 text-[#535b6a] shadow-sm"
+              className="flex h-12 w-12 items-center justify-center rounded-none bg-black/5 text-[#535b6a] shadow-sm"
             >
               <Icon className="h-5 w-5" strokeWidth={1.5} />
             </motion.div>
@@ -87,13 +87,13 @@ export function OffresContent() {
             </div>
 
             {/* Zone Calculatrice Interactive */}
-            <div className="relative rounded-[2rem] border border-black/5 bg-[#fffcf9] p-10 text-center shadow-xl lg:p-14">
+            <div className="relative rounded-none border border-black/5 bg-[#fffcf9] p-10 text-center shadow-xl lg:p-14">
               
               <div className="flex items-center justify-center gap-8">
                 <button
                   type="button"
                   onClick={() => setDevices((d) => Math.max(1, d - 1))}
-                  className="flex h-14 w-14 items-center justify-center rounded-full border border-black/10 bg-white text-black transition-colors hover:border-[#f08222] hover:text-[#f08222] disabled:opacity-30"
+                  className="flex h-14 w-14 items-center justify-center rounded-none border border-black/10 bg-white text-black transition-colors hover:border-[#f08222] hover:text-[#f08222] disabled:opacity-30"
                   disabled={devices <= 1}
                   aria-label="Moins"
                 >
@@ -114,7 +114,7 @@ export function OffresContent() {
                 <button
                   type="button"
                   onClick={() => setDevices((d) => Math.min(25, d + 1))}
-                  className="flex h-14 w-14 items-center justify-center rounded-full border border-black/10 bg-white text-black transition-colors hover:border-[#f08222] hover:text-[#f08222] disabled:opacity-30"
+                  className="flex h-14 w-14 items-center justify-center rounded-none border border-black/10 bg-white text-black transition-colors hover:border-[#f08222] hover:text-[#f08222] disabled:opacity-30"
                   disabled={devices >= 25}
                   aria-label="Plus"
                 >
@@ -124,7 +124,7 @@ export function OffresContent() {
 
               <DeviceGrid count={devices} />
 
-              <div className="mt-12 rounded-2xl bg-[#0e131f] p-6 text-left text-white shadow-lg lg:p-8">
+              <div className="mt-12 rounded-none bg-[#0e131f] p-6 text-left text-white shadow-lg lg:p-8">
                 <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#f08222]">
                   Offre recommandée
                 </p>
@@ -153,7 +153,7 @@ export function OffresContent() {
                     });
                     window.location.href = "/panier";
                   }}
-                  className="mt-8 flex w-full items-center justify-center gap-3 rounded-xl bg-[#f08222] py-4 text-[13px] font-bold uppercase tracking-widest text-white transition-colors hover:bg-[#d9751e]"
+                  className="mt-8 flex w-full items-center justify-center gap-3 rounded-none bg-[#f08222] py-4 text-[13px] font-bold uppercase tracking-widest text-white transition-colors hover:bg-[#d9751e]"
                 >
                   Choisir cette offre
                   <ArrowRight className="h-4 w-4" />
@@ -197,7 +197,7 @@ export function OffresContent() {
                     >
                       {p.name}
                       {p.featured && (
-                        <span className="mx-auto mt-3 block w-12 h-1 rounded-full bg-[#f08222]" />
+                        <span className="mx-auto mt-3 block w-12 h-0.5 bg-[#f08222]" />
                       )}
                     </th>
                   ))}
@@ -238,3 +238,4 @@ export function OffresContent() {
     </>
   );
 }
+

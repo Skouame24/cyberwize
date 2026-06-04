@@ -37,7 +37,7 @@ export function Features() {
           {features.map((f) => (
             <article
               key={f.title}
-              className="rounded-2xl border border-outline bg-warm/80 p-7 transition-colors hover:border-primary/20"
+              className="rounded-none border border-outline bg-warm/80 p-7 transition-colors hover:border-primary/20"
             >
               <h3 className="font-serif text-xl text-ink">{f.title}</h3>
               <p className="mt-3 text-[15px] leading-relaxed text-muted">{f.text}</p>

@@ -291,7 +291,7 @@ export function Hero() {
               href="/devis"
               className="relative inline-flex items-center justify-center gap-3 overflow-hidden border border-white/30 px-8 py-4 text-[13px] font-semibold uppercase tracking-[0.16em] text-white/65 transition-all duration-300 hover:border-white/60 hover:text-white"
             >
-              Demander un devis
+              Générer un devis
             </Link>
           </motion.div>
 

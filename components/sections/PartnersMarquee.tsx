@@ -29,7 +29,7 @@ export function PartnersMarquee() {
           items={partners.map((name) => (
             <span
               key={name}
-              className="whitespace-nowrap text-[12px] font-bold uppercase tracking-wider text-white/85 transition-all hover:text-primary bg-white/[0.03] border border-white/[0.07] rounded-full px-5 py-2.5 shadow-sm hover:border-primary/40 hover:bg-white/[0.06]"
+              className="whitespace-nowrap text-[12px] font-bold uppercase tracking-wider text-white/85 transition-all hover:text-primary bg-white/[0.03] border border-white/[0.07] rounded-none px-5 py-2.5 shadow-sm hover:border-primary/40 hover:bg-white/[0.06]"
             >
               {name}
             </span>

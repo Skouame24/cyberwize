@@ -121,7 +121,7 @@ export function BlogContent() {
             {featuredPost && (
               <Link href={`/blog/${featuredPost.id}`} className="group mb-20 block">
                 <article className="grid gap-10 lg:grid-cols-2 lg:items-center">
-                  <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] lg:aspect-square">
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-none lg:aspect-square">
                     <Image
                       src={featuredPost.image}
                       alt={featuredPost.title}
@@ -167,7 +167,7 @@ export function BlogContent() {
                 {remainingPosts.map((post) => (
                   <Link href={`/blog/${post.id}`} key={post.id} className="group block">
                     <article>
-                      <div className="relative mb-6 aspect-[4/3] overflow-hidden rounded-[1.5rem]">
+                      <div className="relative mb-6 aspect-[4/3] overflow-hidden rounded-none">
                         <Image
                           src={post.image}
                           alt={post.title}

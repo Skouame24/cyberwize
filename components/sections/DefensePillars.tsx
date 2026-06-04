@@ -77,7 +77,7 @@ function StepCard({
         <div className="flex gap-8">
           {/* Colonne Numéro / Icône */}
           <div className="flex flex-col items-center">
-            <div className="relative z-10 flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-[#f08222] text-white shadow-lg shadow-[#f08222]/20">
+            <div className="relative z-10 flex h-16 w-16 shrink-0 items-center justify-center rounded-none bg-[#f08222] text-white shadow-lg shadow-[#f08222]/20">
               <p.icon className="h-7 w-7" strokeWidth={1.5} />
             </div>
             {/* Ligne qui continue vers le bas (sauf pour le dernier) */}

@@ -29,7 +29,7 @@ export function CtaFinal() {
           </Link>
           <Link
             href="/contact"
-            className="inline-flex items-center justify-center rounded-full border border-white/40 px-8 py-3.5 text-sm font-medium text-white transition-colors hover:bg-white/10"
+            className="inline-flex items-center justify-center rounded-none border border-white/40 px-8 py-3.5 text-sm font-medium text-white transition-colors hover:bg-white/10"
           >
             Nous contacter
           </Link>
