@@ -1,24 +1,7 @@
 import type { Metadata } from "next";
-import { Nunito, Barlow } from "next/font/google";
 import "@/styles/globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-
-/* Arial Rounded MT Bold → meilleur équivalent Google Fonts */
-const fontDisplay = Nunito({
-  subsets: ["latin"],
-  variable: "--font-jakarta",
-  display: "swap",
-  weight: ["400", "600", "700", "800", "900"],
-});
-
-/* Eurostile → meilleur équivalent Google Fonts */
-const fontBody = Barlow({
-  subsets: ["latin"],
-  variable: "--font-serif",
-  display: "swap",
-  weight: ["400", "500", "600", "700"],
-});
 
 export const metadata: Metadata = {
   title: "Cyberwize Family | Votre Gardien Numérique",
@@ -32,7 +15,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className={`${fontDisplay.variable} ${fontBody.variable}`}>
+    <html lang="fr">
+      {/* 
+        Conformément à la charte stricte :
+        - Typographie Titres : Arial Rounded MT Bold
+        - Typographie Corps : Eurostile
+        Ces polices sont appliquées de manière absolue via globals.css.
+        Plus aucune police Google (Nunito, Barlow, etc.) n'est utilisée.
+      */}
       <body className="bg-background font-sans text-ink antialiased">
         <Navbar />
         <main>{children}</main>

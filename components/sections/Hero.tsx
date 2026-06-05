@@ -258,6 +258,7 @@ export function Hero() {
               initial={{ clipPath: "inset(0 0 100% 0)" }}
               animate={{ clipPath: "inset(0 0 0% 0)" }}
               transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1], delay: curtainDone + 0.7 }}
+
             >
               La cybersécurité professionnelle d'Agilly — expertise certifiée depuis 2015
               en Côte d'Ivoire — désormais accessible à votre foyer. Contrôle parental,
@@ -274,10 +275,10 @@ export function Hero() {
           >
             {/* Bouton principal — magnétique */}
             <MagneticButton
-              href="/essai"
-              className="group inline-flex items-center justify-center gap-3 bg-[#f08222] px-8 py-4 text-[13px] font-bold uppercase tracking-[0.16em] text-white transition-colors duration-300 hover:bg-[#d97210]"
+              href="#pricing"
+              className="group inline-flex items-center justify-center gap-3 bg-[#f0822a] px-8 py-4 text-[13px] font-bold uppercase tracking-[0.16em] text-white transition-colors duration-300 hover:bg-[#c7610c]"
             >
-              Essai gratuit 14 jours
+              Découvrez les offres
               <motion.span
                 className="inline-flex"
                 whileHover={{ x: 4 }}
@@ -288,10 +289,10 @@ export function Hero() {
             </MagneticButton>
 
             <Link
-              href="/devis"
+              href="/essai"
               className="relative inline-flex items-center justify-center gap-3 overflow-hidden border border-white/30 px-8 py-4 text-[13px] font-semibold uppercase tracking-[0.16em] text-white/65 transition-all duration-300 hover:border-white/60 hover:text-white"
             >
-              Générer un devis
+              Essai gratuit
             </Link>
           </motion.div>
 
@@ -305,7 +306,7 @@ export function Hero() {
             {["Excellence", "Agilité", "Proximité", "Innovation", "Intégrité"].map((v) => (
               <span
                 key={v}
-                className="border border-white/10 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/30"
+                className="border border-white/20 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/80"
               >
                 {v}
               </span>

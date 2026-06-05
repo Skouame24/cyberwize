@@ -33,14 +33,14 @@ export function PageHero({
       )}
     >
       <div className="mx-auto max-w-5xl px-6 sm:px-10 lg:px-16 text-center">
-        
+
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="inline-flex items-center gap-2"
         >
-          <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#f08222]">
+          <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#f0822a]">
             // {eyebrow}
           </span>
         </motion.div>
@@ -49,8 +49,8 @@ export function PageHero({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-8 font-serif font-bold leading-[1.05] text-[#0e131f] mx-auto"
-          style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)" }}
+          className="mt-8 font-sans font-bold leading-[1.05] text-[#000000] mx-auto"
+          style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontFamily: 'Eurostile' }}
         >
           {title}
         </motion.h1>
@@ -60,7 +60,7 @@ export function PageHero({
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="mx-auto my-10 h-[2px] w-24 bg-[#f08222]"
+          className="mx-auto my-10 h-[2px] w-24 bg-[#f0822a]"
         />
 
         {description && (
@@ -73,11 +73,11 @@ export function PageHero({
             {description}
           </motion.p>
         )}
-        
+
       </div>
-      
+
       {/* Léger glow d'arrière plan */}
-      <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[500px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#f08222]/5 blur-[120px]" />
+      <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[500px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#f0822a]/5 blur-[120px]" />
     </section>
   );
 }
