@@ -49,8 +49,8 @@ export function PageHero({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-8 font-sans font-bold leading-[1.05] text-[#000000] mx-auto"
-          style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontFamily: 'Eurostile' }}
+          className="mt-8 font-display font-bold leading-[1.05] text-[#000000] mx-auto"
+          style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)" }}
         >
           {title}
         </motion.h1>

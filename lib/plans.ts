@@ -6,7 +6,8 @@ export type Plan = {
   tagline: string;
   audience: string;
   monthly: number;
-  yearly: number;
+  yearly: number; // Prix Promo
+  originalPrice?: number; // Prix de Vente normal
   perks: string[];
   highlight?: string;
   featured?: boolean;
@@ -15,11 +16,12 @@ export type Plan = {
 export const plans: Plan[] = [
   {
     id: "1device",
-    name: "Harmony 1 Device",
-    tagline: "Protection individuelle",
-    audience: "1 Appareil (Mobile ou PC)",
+    name: "Harmony Telco 1 Device",
+    tagline: "Cyberwize Family HT",
+    audience: "Managed Endpoint & Mobile Security",
     monthly: 1000,
     yearly: 9000,
+    originalPrice: 10000,
     perks: [
       "Protection Check Point Harmony",
       "Sécurisation mobile & PC",
@@ -29,11 +31,12 @@ export const plans: Plan[] = [
   },
   {
     id: "3device",
-    name: "Harmony 3 Devices",
-    tagline: "Foyer connecté léger",
-    audience: "Jusqu'à 3 appareils",
+    name: "Harmony Telco 3 Devices",
+    tagline: "Cyberwize Family HT",
+    audience: "Managed Endpoint & Mobile Security",
     monthly: 2500,
     yearly: 22500,
+    originalPrice: 25000,
     perks: [
       "3 appareils protégés",
       "Contrôle parental intelligent",
@@ -43,11 +46,12 @@ export const plans: Plan[] = [
   },
   {
     id: "5device",
-    name: "Harmony 5 Devices",
-    tagline: "Le cœur de Cyberwize Family",
-    audience: "Jusqu'à 5 appareils · Idéal Famille",
+    name: "Harmony Telco 5 Devices",
+    tagline: "Cyberwize Family HT",
+    audience: "Managed Endpoint & Mobile Security",
     monthly: 4000,
     yearly: 36000,
+    originalPrice: 40000,
     highlight: "Le plus populaire",
     featured: true,
     perks: [
@@ -59,11 +63,12 @@ export const plans: Plan[] = [
   },
   {
     id: "10device",
-    name: "Harmony 10 Devices",
-    tagline: "Protection intégrale",
-    audience: "Jusqu'à 10 appareils · Famille & TPE",
+    name: "Harmony Telco 10 Devices",
+    tagline: "Cyberwize Family HT",
+    audience: "Managed Endpoint & Mobile Security",
     monthly: 7500,
     yearly: 67500,
+    originalPrice: 75000,
     perks: [
       "10 appareils protégés",
       "Contrôle parental multi-profils",

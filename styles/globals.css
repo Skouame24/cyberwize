@@ -1,11 +1,10 @@
 @import "tailwindcss";
 
 @theme {
-  /* Eurostile Exclusif - AUCUN FALLBACK POUR FORCER L'AFFICHAGE */
-  --font-sans: 'Eurostile' !important;
-  --font-serif: 'Eurostile' !important;
-  --font-display: 'Eurostile' !important;
-  --font-alt: 'Eurostile' !important;
+  --font-sans: 'Eurostile', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
+  --font-serif: 'Eurostile', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
+  --font-display: 'Arial Rounded MT Bold', 'Arial Rounded', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  --font-alt: 'Eurostile', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
 
   --color-background: #fcfbfa;
   --color-paper: #ffffff;

@@ -1,66 +1,28 @@
 import { NextResponse } from "next/server";
 import { sendEmail } from "@/lib/mail";
-import { formatPrice } from "@/lib/plans";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const {
-      nom,
-      email,
-      telephone,
-      entreprise,
-      entiteType,
-      poste,
-      plan,
-      appareils,
-      message,
-      panier,
-    } = body;
+    const { nom, email, tel, appareils } = body;
 
     if (!nom || !email) {
-      return NextResponse.json({ error: "Nom et email requis." }, { status: 400 });
+      return NextResponse.json(
+        { error: "Le nom et l'adresse e-mail sont obligatoires." },
+        { status: 400 }
+      );
     }
 
-    const reference = `CWF-${Date.now().toString(36).toUpperCase()}`;
-    const trialLink = `/essai?ref=${reference}&email=${encodeURIComponent(email)}&nom=${encodeURIComponent(nom)}`;
     const agillyEmail = process.env.AGILLY_CONTACT_EMAIL || "contact@agilly.net";
-
-    const subject = `📄 Demande de devis générée (${reference}) - Cyberwize Family`;
+    const subject = `⚠️ Nouvelle Demande d'accès d'essai - Cyberwize Family`;
     
-    // Panier HTML summary
-    let itemsHtml = "";
-    if (panier && panier.length > 0) {
-      itemsHtml = panier.map((item: any) => `
-        <tr>
-          <td style="padding: 12px 8px; border-bottom: 1px solid #e8e4de; font-size: 13px; color: #000000; font-weight: bold;">
-            ${item.name}
-          </td>
-          <td style="padding: 12px 8px; border-bottom: 1px solid #e8e4de; text-align: right; font-size: 13px; color: #f0822a; font-weight: bold;">
-            ${formatPrice(item.price)}
-          </td>
-        </tr>
-      `).join("");
-    } else {
-      itemsHtml = `
-        <tr>
-          <td style="padding: 12px 8px; border-bottom: 1px solid #e8e4de; font-size: 13px; color: #000000; font-weight: bold;">
-            ${plan || "Harmony Telco 5 Devices"}
-          </td>
-          <td style="padding: 12px 8px; border-bottom: 1px solid #e8e4de; text-align: right; font-size: 13px; color: #f0822a; font-weight: bold;">
-            ${appareils || 5} Appareils
-          </td>
-        </tr>
-      `;
-    }
-
     const htmlContent = `
       <!DOCTYPE html>
       <html>
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Demande de Devis Cyberwize Family</title>
+          <title>Demande d'essai Cyberwize Family</title>
           <style>
             @media only screen and (max-width: 600px) {
               .container { width: 100% !important; padding: 15px !important; }
@@ -92,10 +54,10 @@ export async function POST(request: Request) {
                         <tr>
                           <td>
                             <span style="font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 11px; font-weight: bold; letter-spacing: 0.28em; color: #f0822a; text-transform: uppercase; display: block; margin-bottom: 8px;">
-                              // CYBERWIZE · DEVIS
+                              // CYBERWIZE · NOTIFICATION
                             </span>
                             <h1 style="font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 20px; font-weight: bold; color: #000000; margin: 0; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1.3;">
-                              Demande de devis générée
+                              Demande d&apos;accès d&apos;essai
                             </h1>
                           </td>
                         </tr>
@@ -103,91 +65,57 @@ export async function POST(request: Request) {
                       
                       <div style="height: 1px; background-color: #e8e4de; margin: 24px 0;"></div>
                       
-                      <!-- Info Text -->
+                      <!-- Intro Text -->
                       <p style="font-size: 14px; line-height: 1.6; color: #535b6a; margin: 0 0 24px 0;">
-                        Une demande de devis personnalisé a été enregistrée avec succès sous la référence <strong>${reference}</strong>.
+                        Une nouvelle demande d&apos;accès pour la version d&apos;essai de 14 jours de <strong>Cyberwize Family</strong> a été soumise. Veuillez consulter les informations ci-dessous pour traiter cette demande :
                       </p>
                       
                       <!-- Data Grid -->
-                      <table border="0" cellpadding="0" cellspacing="0" width="100%" class="meta-table" style="margin-bottom: 30px;">
+                      <table border="0" cellpadding="0" cellspacing="0" width="100%" class="meta-table" style="margin-bottom: 24px;">
                         <tr style="border-bottom: 1px solid #f0eeea;">
                           <td style="padding: 12px 0; font-size: 13px; color: #535b6a; font-weight: bold; width: 35%; vertical-align: top;">
-                            Référence
-                          </td>
-                          <td style="padding: 12px 0; font-size: 14px; color: #f0822a; font-weight: bold; vertical-align: top;">
-                            ${reference}
-                          </td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid #f0eeea;">
-                          <td style="padding: 12px 0; font-size: 13px; color: #535b6a; font-weight: bold; width: 35%; vertical-align: top;">
-                            Client
+                            Nom complet
                           </td>
                           <td style="padding: 12px 0; font-size: 14px; color: #000000; font-weight: bold; vertical-align: top;">
                             ${nom}
                           </td>
                         </tr>
                         <tr style="border-bottom: 1px solid #f0eeea;">
-                          <td style="padding: 12px 0; font-size: 13px; color: #535b6a; font-weight: bold; width: 35%; vertical-align: top;">
-                            Email client
+                          <td style="padding: 12px 0; font-size: 13px; color: #535b6a; font-weight: bold; vertical-align: top;">
+                            Adresse Email
                           </td>
                           <td style="padding: 12px 0; font-size: 14px; color: #000000; vertical-align: top;">
                             <a href="mailto:${email}" style="color: #f0822a; text-decoration: none; font-weight: bold;">${email}</a>
                           </td>
                         </tr>
                         <tr style="border-bottom: 1px solid #f0eeea;">
-                          <td style="padding: 12px 0; font-size: 13px; color: #535b6a; font-weight: bold; width: 35%; vertical-align: top;">
+                          <td style="padding: 12px 0; font-size: 13px; color: #535b6a; font-weight: bold; vertical-align: top;">
                             Téléphone
                           </td>
                           <td style="padding: 12px 0; font-size: 14px; color: #000000; vertical-align: top;">
-                            ${telephone || "Non renseigné"}
+                            ${tel || "Non renseigné"}
                           </td>
                         </tr>
                         <tr style="border-bottom: 1px solid #f0eeea;">
-                          <td style="padding: 12px 0; font-size: 13px; color: #535b6a; font-weight: bold; width: 35%; vertical-align: top;">
-                            Type d'entité
+                          <td style="padding: 12px 0; font-size: 13px; color: #535b6a; font-weight: bold; vertical-align: top;">
+                            Appareils à protéger
                           </td>
                           <td style="padding: 12px 0; font-size: 14px; color: #000000; vertical-align: top;">
-                            ${entiteType} ${entreprise ? `(${entreprise} - ${poste || "Poste non spécifié"})` : ""}
+                            ${appareils || 5}
                           </td>
                         </tr>
                       </table>
-
-                      <!-- Products Table -->
-                      <h3 style="font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 13px; font-weight: bold; color: #000000; margin: 0 0 12px 0; text-transform: uppercase; letter-spacing: 0.05em;">
-                        Formule demandée
-                      </h3>
-                      <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 30px; border-collapse: collapse;">
-                        <thead>
-                          <tr style="background-color: #faf8f5;">
-                            <th align="left" style="padding: 12px 8px; border-bottom: 2px solid #e8e4de; font-size: 11px; font-weight: bold; text-transform: uppercase; color: #535b6a; letter-spacing: 0.05em;">Formule / Option</th>
-                            <th align="right" style="padding: 12px 8px; border-bottom: 2px solid #e8e4de; font-size: 11px; font-weight: bold; text-transform: uppercase; color: #535b6a; letter-spacing: 0.05em;">Tarif</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          ${itemsHtml}
-                        </tbody>
-                      </table>
-
-                      ${message ? `
-                        <h3 style="font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 13px; font-weight: bold; color: #000000; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 0.05em;">Besoins spécifiques</h3>
-                        <div style="background-color: #faf8f5; padding: 20px; border-left: 3px solid #f0822a; font-style: italic; font-size: 13px; color: #535b6a; line-height: 1.5; margin-bottom: 30px;">
-                          "${message}"
-                        </div>
-                      ` : ""}
-
-                      <!-- Trial Access Box -->
+                      
+                      <!-- Action Required Box -->
                       <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #faf8f5; border-left: 3px solid #f0822a; border-radius: 0;">
                         <tr>
                           <td style="padding: 20px;">
                             <h4 style="margin: 0 0 8px 0; font-family: 'Arial Rounded MT Bold', sans-serif; font-size: 12px; font-weight: bold; text-transform: uppercase; color: #f0822a; letter-spacing: 0.1em;">
-                              Lien d&apos;activation d&apos;essai
+                              Action requise
                             </h4>
-                            <p style="margin: 0 0 12px 0; font-size: 13px; line-height: 1.5; color: #535b6a;">
-                              Cliquez ci-dessous pour démarrer manuellement les 14 jours d&apos;essai gratuit pour le client :
+                            <p style="margin: 0; font-size: 13px; line-height: 1.5; color: #535b6a;">
+                              Veuillez contacter le client à l&apos;adresse ci-dessus pour lui transmettre les informations de licence et guider l&apos;activation de ses appareils.
                             </p>
-                            <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}${trialLink}" style="display: inline-block; background-color: #f0822a; color: #ffffff; padding: 12px 24px; font-size: 12px; font-weight: bold; text-decoration: none; text-transform: uppercase; letter-spacing: 0.1em;">
-                              Lancer l'essai de 14 jours
-                            </a>
                           </td>
                         </tr>
                       </table>
@@ -221,13 +149,10 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       ok: true,
-      reference,
-      trialLink,
-      message:
-        `Votre demande de devis personnalisé a été enregistrée avec succès sous la référence ${reference}. L'équipe Agilly a été notifiée et vous recontactera très rapidement.`,
+      message: "La demande d'accès a été transmise avec succès à l'équipe Agilly.",
     });
   } catch (error) {
-    console.error("[API Devis Error]", error);
-    return NextResponse.json({ error: "Erreur serveur." }, { status: 500 });
+    console.error("[API Essai Error]", error);
+    return NextResponse.json({ error: "Erreur lors du traitement de la demande." }, { status: 500 });
   }
 }

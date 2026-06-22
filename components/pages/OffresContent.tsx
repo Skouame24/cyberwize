@@ -2,240 +2,594 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Minus, Plus, ArrowRight, Smartphone, Laptop, Tablet, Check } from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
-import { cn } from "@/lib/utils";
-import { plans, recommendPlan, formatPrice } from "@/lib/plans";
-import { PlansShowcase } from "@/components/sections/PlansShowcase";
-
-/*
- * SECTION : OFFRES CONTENT (Simulateur + Tableau)
- *
- * Design Éditorial :
- * - Le simulateur devient une "calculatrice premium" avec des boutons minimalistes et un chiffre géant Serif.
- * - Le tableau comparatif perd ses bordures de tableau Excel pour devenir 
- *   une liste claire et lisible, avec mise en avant de l'offre Famille.
- */
-
-const deviceIcons = [Smartphone, Laptop, Tablet, Smartphone, Laptop];
-
-function DeviceGrid({ count }: { count: number }) {
-  const slots = Math.min(count, 12);
-  return (
-    <div className="mt-8 flex flex-wrap justify-center gap-3">
-      <AnimatePresence>
-        {Array.from({ length: slots }).map((_, i) => {
-          const Icon = deviceIcons[i % deviceIcons.length];
-          return (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
-              animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              exit={{ opacity: 0, scale: 0.5, rotate: 10 }}
-              transition={{ duration: 0.3, type: "spring", stiffness: 200, damping: 15 }}
-              className="flex h-12 w-12 items-center justify-center rounded-none bg-black/5 text-[#535b6a] shadow-sm"
-            >
-              <Icon className="h-5 w-5" strokeWidth={1.5} />
-            </motion.div>
-          );
-        })}
-      </AnimatePresence>
-      {count > 12 && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="flex h-12 items-center px-4 font-serif text-lg font-bold text-[#f08222]"
-        >
-          +{count - 12}
-        </motion.div>
-      )}
-    </div>
-  );
-}
-
-const compareRows = [
-  { label: "Appareils couverts", "1device": "1 max", "3device": "3 max", "5device": "5 max", "10device": "10 max" },
-  { label: "Check Point Harmony Telco", "1device": "✓", "3device": "✓", "5device": "✓", "10device": "✓" },
-  { label: "Contrôle parental intelligent", "1device": "—", "3device": "✓", "5device": "✓", "10device": "✓" },
-  { label: "Anti-phishing Zero-day", "1device": "✓", "3device": "✓", "5device": "✓", "10device": "✓" },
-  { label: "Sandboxing & CDR (Fichiers)", "1device": "—", "3device": "—", "5device": "✓", "10device": "✓" },
-  { label: "Niveau de Support Agilly", "1device": "Standard 24/7", "3device": "Standard 24/7", "5device": "SOC Prioritaire", "10device": "SOC + Revue" },
-];
+import { formatPrice, plans, recommendPlan } from "@/lib/plans";
+import { FileText, SlidersHorizontal, Search, Check, RefreshCw, Smartphone, Monitor, Shield, Sparkles } from "lucide-react";
 
 export function OffresContent() {
-  const [devices, setDevices] = useState(5);
-  const recommendedId = recommendPlan(devices);
-  const recommended = plans.find((p) => p.id === recommendedId)!;
+  // State variables
+  const [activeTab, setActiveTab] = useState<"parcourir" | "simulateur" | "comparatif">("parcourir");
+  
+  // Filter States (Parcourir view)
+  const [searchQuery, setSearchQuery] = useState("");
+  const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("yearly");
+  const [maxBudget, setMaxBudget] = useState(80000);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  // Simulator State
+  const [deviceCount, setDeviceCount] = useState<number>(3);
+
+  // Dynamic max budget based on billing cycle
+  const budgetLimit = billingCycle === "monthly" ? 10000 : 80000;
+
+  const handleBillingCycleChange = (cycle: "monthly" | "yearly") => {
+    setBillingCycle(cycle);
+    // Adjust max budget when changing cycle to prevent overflow/underflow
+    setMaxBudget(cycle === "monthly" ? 10000 : 80000);
+  };
+
+  // Filter plans logic
+  const filteredPlans = plans.filter((plan) => {
+    const activePrice = billingCycle === "yearly" ? plan.yearly : plan.monthly;
+    
+    // Budget check
+    if (activePrice > maxBudget) return false;
+
+    // Search query check
+    if (searchQuery.trim() !== "") {
+      const query = searchQuery.toLowerCase();
+      const matchName = plan.name.toLowerCase().includes(query);
+      const matchTagline = plan.tagline.toLowerCase().includes(query);
+      const matchAudience = plan.audience.toLowerCase().includes(query);
+      const matchPerks = plan.perks.some((perk) => perk.toLowerCase().includes(query));
+      return matchName || matchTagline || matchAudience || matchPerks;
+    }
+
+    return true;
+  });
+
+  // Simulator recommendation
+  const recommendedPlanId = recommendPlan(deviceCount);
+  const recommendedPlan = plans.find((p) => p.id === recommendedPlanId) || plans[0];
+
+  // Help text based on recommended device count
+  const getRecommendationText = (id: string) => {
+    switch (id) {
+      case "1device":
+        return "Optimisé pour sécuriser un terminal individuel (ex. votre ordinateur de travail ou votre smartphone personnel).";
+      case "3device":
+        return "Idéal pour protéger jusqu'à 3 appareils (ex. ordinateur, smartphone et tablette d'un même utilisateur ou couple).";
+      case "5device":
+        return "Notre offre phare. Parfaite pour sécuriser l'ensemble des terminaux de la famille (ordinateurs, tablettes et smartphones des enfants).";
+      case "10device":
+        return "La protection maximale pour les foyers hyper-connectés ou équipés de nombreux terminaux à sécuriser.";
+      default:
+        return "";
+    }
+  };
 
   return (
-    <>
-      {/* SIMULATEUR D'APPAREILS */}
-      <section className="bg-white py-24 lg:py-32">
-        <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-16">
-          <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
-            
-            <div className="text-center lg:text-left">
-              <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#f08222]">
-                // Simulateur
-              </span>
-              <h2 className="mt-4 font-serif font-bold leading-[1.1] text-[#0e131f]" style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}>
-                Combien d'appareils se connectent chez vous ?
-              </h2>
-              <p className="mt-6 text-[16px] leading-[1.8] text-[#535b6a]">
-                Ajustez le compteur ci-contre. Nous calculerons instantanément l'offre qui correspond le mieux à votre foyer, sans frais inutiles.
-              </p>
-            </div>
-
-            {/* Zone Calculatrice Interactive */}
-            <div className="relative rounded-none border border-black/5 bg-[#fffcf9] p-10 text-center shadow-xl lg:p-14">
-              
-              <div className="flex items-center justify-center gap-8">
-                <button
-                  type="button"
-                  onClick={() => setDevices((d) => Math.max(1, d - 1))}
-                  className="flex h-14 w-14 items-center justify-center rounded-none border border-black/10 bg-white text-black transition-colors hover:border-[#f08222] hover:text-[#f08222] disabled:opacity-30"
-                  disabled={devices <= 1}
-                  aria-label="Moins"
-                >
-                  <Minus className="h-5 w-5" strokeWidth={2} />
-                </button>
-                
-                <div className="w-32 text-center">
-                  <motion.span
-                    key={devices}
-                    initial={{ y: -10, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    className="block font-serif text-[5rem] font-black leading-none text-[#0e131f]"
-                  >
-                    {devices}
-                  </motion.span>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => setDevices((d) => Math.min(25, d + 1))}
-                  className="flex h-14 w-14 items-center justify-center rounded-none border border-black/10 bg-white text-black transition-colors hover:border-[#f08222] hover:text-[#f08222] disabled:opacity-30"
-                  disabled={devices >= 25}
-                  aria-label="Plus"
-                >
-                  <Plus className="h-5 w-5" strokeWidth={2} />
-                </button>
-              </div>
-
-              <DeviceGrid count={devices} />
-
-              <div className="mt-12 rounded-none bg-[#0e131f] p-6 text-left text-white shadow-lg lg:p-8">
-                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#f08222]">
-                  Offre recommandée
-                </p>
-                <div className="mt-3 flex items-end justify-between">
-                  <div>
-                    <p className="font-serif text-[2rem] font-bold leading-none">{recommended.name}</p>
-                    <p className="mt-2 text-[13px] text-white/50">{recommended.audience}</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-serif text-[2.5rem] font-black leading-none text-[#f08222]">
-                      {formatPrice(recommended.yearly)}
-                    </p>
-                    <span className="text-[11px] font-medium text-white/40">/ mois (annuel)</span>
-                  </div>
-                </div>
-                
-                <button
-                  type="button"
-                  onClick={() => {
-                    const { useCart } = require("@/lib/cart-store");
-                    useCart.getState().addItem({
-                      planId: recommended.id,
-                      name: recommended.name,
-                      billing: "yearly",
-                      price: recommended.yearly,
-                    });
-                    window.location.href = "/panier";
-                  }}
-                  className="mt-8 flex w-full items-center justify-center gap-3 rounded-none bg-[#f08222] py-4 text-[13px] font-bold uppercase tracking-widest text-white transition-colors hover:bg-[#d9751e]"
-                >
-                  Choisir cette offre
-                  <ArrowRight className="h-4 w-4" />
-                </button>
-              </div>
-
-            </div>
-
+    <section className="bg-background min-h-screen py-16 font-sans">
+      <div className="mx-auto max-w-6xl px-6 lg:px-8">
+        
+        {/* Navigation & Tab Switcher */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10 pb-6 border-b border-outline">
+          <div className="flex flex-wrap gap-2 bg-paper p-1 border border-outline rounded-none">
+            <button
+              onClick={() => setActiveTab("parcourir")}
+              className={`px-5 py-2.5 rounded-none text-[11px] font-bold uppercase tracking-[0.16em] transition-colors cursor-pointer ${
+                activeTab === "parcourir"
+                  ? "bg-primary text-white"
+                  : "bg-transparent text-muted hover:text-ink hover:bg-warm"
+              }`}
+            >
+              Parcourir les offres
+            </button>
+            <button
+              onClick={() => setActiveTab("simulateur")}
+              className={`px-5 py-2.5 rounded-none text-[11px] font-bold uppercase tracking-[0.16em] transition-colors cursor-pointer ${
+                activeTab === "simulateur"
+                  ? "bg-primary text-white"
+                  : "bg-transparent text-muted hover:text-ink hover:bg-warm"
+              }`}
+            >
+              Simulateur de besoins
+            </button>
+            <button
+              onClick={() => setActiveTab("comparatif")}
+              className={`px-5 py-2.5 rounded-none text-[11px] font-bold uppercase tracking-[0.16em] transition-colors cursor-pointer ${
+                activeTab === "comparatif"
+                  ? "bg-primary text-white"
+                  : "bg-transparent text-muted hover:text-ink hover:bg-warm"
+              }`}
+            >
+              Tableau Comparatif
+            </button>
           </div>
+
+          {activeTab === "parcourir" && (
+            <button
+              onClick={() => setIsFilterOpen(!isFilterOpen)}
+              className={`flex items-center gap-2 border rounded-none px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.16em] transition-colors cursor-pointer ${
+                isFilterOpen || searchQuery !== "" || billingCycle !== "yearly" || maxBudget < budgetLimit
+                  ? "border-primary bg-primary-muted text-primary-deep font-bold"
+                  : "bg-paper border-outline text-muted hover:bg-warm hover:text-ink"
+              }`}
+            >
+              <SlidersHorizontal className="h-3.5 w-3.5" />
+              {isFilterOpen ? "Fermer les filtres" : "Filtrer"}
+              {(searchQuery !== "" || billingCycle !== "yearly" || maxBudget < budgetLimit) && (
+                <span className="ml-1 w-2.5 h-2.5 bg-primary rounded-none inline-block shadow-sm" />
+              )}
+            </button>
+          )}
         </div>
-      </section>
 
-      {/* RAPPEL DES CARTES DE PRIX (Déjà redesignées) */}
-      <PlansShowcase showDeviceHint />
+        {/* ======================================= */}
+        {/* VIEW 1: PARCOURIR (CATALOG & FILTERS)   */}
+        {/* ======================================= */}
+        {activeTab === "parcourir" && (
+          <div>
+            {/* Expanded Filters */}
+            {isFilterOpen && (
+              <div className="mb-10 p-6 bg-warm border border-outline rounded-none grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                {/* Search */}
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-wider text-muted block">Rechercher</label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder="Ex: parental, Check Point, PC..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="input-soft w-full h-[42px] pr-10"
+                    />
+                    <Search className="absolute right-3 top-1/2 -translate-y-1/2 text-muted/50 h-4 w-4" />
+                  </div>
+                </div>
 
-      {/* TABLEAU COMPARATIF */}
-      <section className="bg-white py-24 lg:py-40">
-        <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-16">
-          
-          <div className="mb-16 text-center">
-            <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#f08222]">
-              // Comparatif détaillé
-            </span>
-            <h2 className="mt-4 font-serif font-bold leading-[1.1] text-[#0e131f]" style={{ fontSize: "clamp(2rem, 3.5vw, 2.8rem)" }}>
-              Qu'est-ce qui est inclus ?
-            </h2>
-          </div>
-
-          <div className="overflow-x-auto pb-8">
-            <table className="w-full min-w-[700px] text-left">
-              <thead>
-                <tr>
-                  <th className="w-1/4 pb-8 pl-6 font-serif text-[1.2rem] text-[#0e131f]/50 font-normal">Fonctionnalité</th>
-                  {plans.map((p) => (
-                    <th
-                      key={p.id}
-                      className={cn(
-                        "w-1/4 pb-8 text-center font-serif text-[1.6rem] font-bold",
-                        p.featured ? "text-[#f08222]" : "text-[#0e131f]"
-                      )}
+                {/* Billing Cycle */}
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-wider text-muted block">Cycle de facturation</label>
+                  <div className="flex border border-outline p-0.5 bg-paper rounded-none h-[42px] items-center">
+                    <button
+                      onClick={() => handleBillingCycleChange("monthly")}
+                      className={`flex-1 text-center py-2 text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer rounded-none ${
+                        billingCycle === "monthly"
+                          ? "bg-primary text-white font-bold"
+                          : "text-muted hover:text-ink"
+                      }`}
                     >
-                      {p.name}
-                      {p.featured && (
-                        <span className="mx-auto mt-3 block w-12 h-0.5 bg-[#f08222]" />
-                      )}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {compareRows.map((row) => (
-                  <tr key={row.label} className="border-t border-black/5 transition-colors hover:bg-black/[0.02]">
-                    <td className="py-6 pl-6 text-[15px] font-medium text-[#0e131f]">
-                      {row.label}
-                    </td>
-                    {plans.map((p) => {
-                      const value = (row as any)[p.id];
-                      return (
-                        <td
-                          key={p.id}
-                          className={cn(
-                            "py-6 text-center text-[15px]",
-                            p.featured ? "font-bold text-[#0e131f] bg-[#f08222]/[0.03]" : "text-[#535b6a]"
-                          )}
-                        >
-                          {value === "Inclus" || value === "✓" ? (
-                            <Check className="mx-auto h-5 w-5 text-[#f08222]" strokeWidth={p.featured ? 3 : 2} />
-                          ) : (
-                            value || "—"
-                          )}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                      Mensuel
+                    </button>
+                    <button
+                      onClick={() => handleBillingCycleChange("yearly")}
+                      className={`flex-1 text-center py-2 text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer rounded-none flex items-center justify-center gap-1.5 ${
+                        billingCycle === "yearly"
+                          ? "bg-primary text-white font-bold"
+                          : "text-muted hover:text-ink"
+                      }`}
+                    >
+                      Annuel
+                      <span className={`text-[8px] px-1 py-0.5 font-black uppercase ${billingCycle === "yearly" ? "bg-white text-primary" : "bg-primary/10 text-primary"}`}>-25%</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Max Budget Slider */}
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-muted">Budget maximum</label>
+                    <span className="text-[11px] font-bold text-ink bg-paper border border-outline px-2 py-0.5">{formatPrice(maxBudget)}</span>
+                  </div>
+                  <input
+                    type="range"
+                    min={billingCycle === "monthly" ? 1000 : 9000}
+                    max={budgetLimit}
+                    step={billingCycle === "monthly" ? 500 : 1000}
+                    value={maxBudget}
+                    onChange={(e) => setMaxBudget(Number(e.target.value))}
+                    className="w-full accent-primary h-1.5 bg-outline rounded-none appearance-none cursor-pointer mt-3"
+                  />
+                  <div className="flex justify-between text-[9px] text-muted/60 font-bold uppercase tracking-wider mt-1">
+                    <span>{formatPrice(billingCycle === "monthly" ? 1000 : 9000)}</span>
+                    <span>{formatPrice(budgetLimit)}</span>
+                  </div>
+                </div>
+
+                {/* Reset Filters row */}
+                {(searchQuery !== "" || billingCycle !== "yearly" || maxBudget < budgetLimit) && (
+                  <div className="md:col-span-3 flex justify-end pt-2 border-t border-outline/50">
+                    <button
+                      onClick={() => {
+                        setSearchQuery("");
+                        setBillingCycle("yearly");
+                        setMaxBudget(80000);
+                      }}
+                      className="text-[10px] font-bold uppercase tracking-[0.16em] text-primary hover:text-primary-deep flex items-center gap-1.5 cursor-pointer"
+                    >
+                      <RefreshCw className="h-3 w-3" />
+                      Réinitialiser les filtres
+                    </button>
+                  </div>
+                )}
+
+              </div>
+            )}
+
+            {/* Catalog Grid */}
+            <h2 className="text-xl font-display font-bold uppercase tracking-wider text-ink mb-6">Nos Offres et Forfaits</h2>
+
+            {filteredPlans.length > 0 ? (
+              <div className="space-y-6">
+                {filteredPlans.map((plan) => {
+                  const price = billingCycle === "yearly" ? plan.yearly : plan.monthly;
+                  return (
+                    <div key={plan.id} className="bg-paper border border-outline rounded-none flex flex-col md:flex-row overflow-hidden transition-all duration-300 hover:border-primary/20 hover:shadow-md">
+                      
+                      {/* Left Column: Product Info */}
+                      <div className="flex-1 p-8">
+                        <div className="mb-3 inline-block px-3 py-1 bg-primary-muted text-primary-deep text-[10px] font-bold uppercase tracking-[0.2em] rounded-none border border-primary/15">
+                          {plan.tagline}
+                        </div>
+                        <h3 className="text-2xl font-display font-bold text-ink mb-2">{plan.name}</h3>
+                        <p className="text-[14px] text-muted mb-6">{plan.audience}</p>
+                        
+                        <p className="text-[11px] font-bold text-muted/60 mb-3 uppercase tracking-[0.18em]">Spécifications du service :</p>
+                        <ul className="space-y-2.5 mb-4">
+                          {plan.perks.map((perk, i) => (
+                            <li key={i} className="flex items-start text-sm text-muted">
+                              <span className="mr-2 text-primary font-bold">-</span>
+                              {perk}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {/* Right Column: Pricing & Action */}
+                      <div className="bg-warm md:w-80 p-8 flex flex-col justify-center items-center border-t md:border-t-0 md:border-l border-outline relative">
+                        {/* Brand indicator line */}
+                        <div className="hidden md:block absolute left-[-2px] top-1/2 -translate-y-1/2 w-[3px] h-16 bg-primary" />
+
+                        {billingCycle === "yearly" && plan.originalPrice && (
+                          <div className="mb-2 flex flex-col items-center">
+                            <span className="text-[9px] text-[#c03c0c] font-black uppercase tracking-[0.2em] bg-[#c03c0c]/10 px-2.5 py-1 rounded-none border border-[#c03c0c]/15 mb-1.5">En Promo</span>
+                            <span className="text-sm text-muted/50 line-through decoration-muted/30">{formatPrice(plan.originalPrice)}</span>
+                          </div>
+                        )}
+                        
+                        <p className="text-4xl font-display font-black text-ink mb-1">{formatPrice(price)}</p>
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-muted/65 mb-8">
+                          {billingCycle === "yearly" ? "Par an" : "Par mois"}
+                        </span>
+                        
+                        <div className="flex items-center gap-3 w-full">
+                          <Link
+                            href={`/devis?plan=${encodeURIComponent(plan.name)}&billing=${billingCycle}`}
+                            className="flex items-center justify-center border border-primary rounded-none text-primary p-3.5 cursor-pointer hover:bg-primary-muted transition-colors"
+                            title="Générer un devis pour cette offre"
+                          >
+                            <FileText className="h-4.5 w-4.5" />
+                          </Link>
+                          <Link 
+                            href={`/offres/${plan.id}?billing=${billingCycle}`}
+                            className="flex-1 bg-primary hover:bg-primary-deep text-white text-[11px] font-bold uppercase tracking-[0.16em] text-center py-3.5 rounded-none transition-colors"
+                          >
+                            Sélectionner
+                          </Link>
+                        </div>
+                      </div>
+
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="text-center py-16 bg-warm border border-outline rounded-none">
+                <p className="text-muted mb-4 font-bold text-sm">Aucune offre ne correspond à vos filtres actuels.</p>
+                <button
+                  onClick={() => {
+                    setSearchQuery("");
+                    setBillingCycle("yearly");
+                    setMaxBudget(80000);
+                  }}
+                  className="btn-primary"
+                >
+                  Réinitialiser les filtres
+                </button>
+              </div>
+            )}
           </div>
-          
-        </div>
-      </section>
-    </>
+        )}
+
+        {/* ======================================= */}
+        {/* VIEW 2: SIMULATEUR (RECOMMENDATION)     */}
+        {/* ======================================= */}
+        {activeTab === "simulateur" && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            {/* Input card */}
+            <div className="lg:col-span-5 bg-paper border border-outline p-8 rounded-none space-y-6">
+              <div>
+                <span className="text-primary text-[10px] font-bold uppercase tracking-[0.2em]">// Calculez vos besoins</span>
+                <h2 className="text-2xl font-display font-bold text-ink mt-2">Combien d'appareils devez-vous sécuriser ?</h2>
+                <p className="text-xs text-muted mt-2">
+                  Nous incluons les ordinateurs (Windows, macOS), les tablettes et les smartphones dans l'estimation de votre couverture.
+                </p>
+              </div>
+
+              {/* Range Slider for Devices */}
+              <div className="space-y-4 pt-4 border-t border-outline">
+                <div className="flex justify-between items-center">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-muted">Nombre d'appareils</span>
+                  <span className="text-2xl font-display font-black text-primary px-3 py-1 bg-primary-muted border border-primary/20">
+                    {deviceCount}
+                  </span>
+                </div>
+
+                <input
+                  type="range"
+                  min="1"
+                  max="15"
+                  value={deviceCount}
+                  onChange={(e) => setDeviceCount(Number(e.target.value))}
+                  className="w-full accent-primary h-2 bg-outline rounded-none appearance-none cursor-pointer"
+                />
+
+                <div className="flex justify-between text-[10px] font-bold text-muted/50">
+                  <span>1 Appareil</span>
+                  <span>5 Appareils</span>
+                  <span>10 Appareils</span>
+                  <span>15+ Appareils</span>
+                </div>
+              </div>
+
+              {/* Quick Select Buttons */}
+              <div className="space-y-2 pt-4 border-t border-outline">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-muted block">Sélection rapide :</span>
+                <div className="grid grid-cols-5 gap-2">
+                  {[1, 3, 5, 10, 15].map((val) => (
+                    <button
+                      key={val}
+                      onClick={() => setDeviceCount(val)}
+                      className={`py-2 text-[11px] font-bold border transition-colors cursor-pointer rounded-none ${
+                        deviceCount === val
+                          ? "bg-primary border-primary text-white"
+                          : "bg-paper border-outline text-muted hover:border-primary/45 hover:text-ink"
+                      }`}
+                    >
+                      {val} {val === 15 ? "+" : ""}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Recommendation Result Card */}
+            <div className="lg:col-span-7 bg-paper border-2 border-primary rounded-none shadow-[0_0_24px_rgba(240,130,42,0.08)] overflow-hidden relative">
+              {/* Highlight ribbon banner */}
+              <div className="bg-primary text-white text-center py-2 text-[10px] font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-1.5">
+                <Sparkles className="h-3.5 w-3.5" />
+                Conseillé pour vos {deviceCount} appareil{deviceCount > 1 ? "s" : ""}
+              </div>
+
+              <div className="p-8">
+                <div className="mb-3 inline-block px-3 py-1 bg-primary-muted text-primary-deep text-[10px] font-bold uppercase tracking-[0.2em] rounded-none border border-primary/15">
+                  {recommendedPlan.tagline}
+                </div>
+                
+                <h3 className="text-3xl font-display font-bold text-ink mb-1">{recommendedPlan.name}</h3>
+                <p className="text-[14px] text-muted mb-4">{recommendedPlan.audience}</p>
+                <p className="text-[13px] text-primary-deep font-semibold mb-6 bg-primary-muted/50 p-3 border-l-2 border-primary">
+                  {getRecommendationText(recommendedPlan.id)}
+                </p>
+                
+                <p className="text-[11px] font-bold text-muted/60 mb-3 uppercase tracking-[0.18em]">Ce qui est inclus dans cette offre :</p>
+                <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2 mb-8">
+                  {recommendedPlan.perks.map((perk, i) => (
+                    <li key={i} className="flex items-start text-xs text-muted">
+                      <Check className="h-4 w-4 text-primary shrink-0 mr-2 mt-0.5" strokeWidth={3} />
+                      {perk}
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Price block & Action */}
+                <div className="pt-6 border-t border-outline flex flex-col md:flex-row items-center justify-between gap-6">
+                  <div>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-4xl font-display font-black text-ink">{formatPrice(recommendedPlan.yearly)}</span>
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-muted">Par an</span>
+                    </div>
+                    {recommendedPlan.originalPrice && (
+                      <p className="text-[11px] text-muted mt-1">
+                        Économisez <span className="text-[#c03c0c] font-bold">{formatPrice(recommendedPlan.originalPrice - recommendedPlan.yearly)}</span> par rapport au tarif normal
+                      </p>
+                    )}
+                  </div>
+                  
+                  <div className="flex items-center gap-3 w-full md:w-auto">
+                    <Link
+                      href={`/devis?plan=${encodeURIComponent(recommendedPlan.name)}&billing=yearly`}
+                      className="flex items-center justify-center border border-primary rounded-none text-primary p-4 cursor-pointer hover:bg-primary-muted transition-colors"
+                      title="Générer un devis pour cette offre"
+                    >
+                      <FileText className="h-5 w-5" />
+                    </Link>
+                    <Link 
+                      href={`/offres/${recommendedPlan.id}?billing=yearly`}
+                      className="flex-1 md:flex-initial bg-primary hover:bg-primary-deep text-white text-[11px] font-bold uppercase tracking-[0.16em] text-center px-8 py-4 rounded-none transition-colors"
+                    >
+                      Sélectionner l'offre
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
+              {deviceCount > 10 && (
+                <div className="bg-warm border-t border-outline p-4 text-center text-xs text-muted">
+                  Besoin de protéger plus de 10 appareils ? <Link href="/contact" className="font-bold text-primary hover:underline">Contactez nos conseillers</Link> pour une offre entreprise sur-mesure.
+                </div>
+              )}
+            </div>
+
+          </div>
+        )}
+
+        {/* ======================================= */}
+        {/* VIEW 3: TABLEAU COMPARATIF              */}
+        {/* ======================================= */}
+        {activeTab === "comparatif" && (
+          <div className="bg-paper border border-outline rounded-none shadow-sm overflow-hidden">
+            
+            {/* Table Header Section */}
+            <div className="bg-warm border-b border-outline p-6">
+              <h2 className="text-lg font-display font-bold text-ink uppercase tracking-wider">Grille de comparaison détaillée</h2>
+              <p className="text-xs text-muted mt-1">Comparez les capacités de nos solutions Cyberwize Family Check Point Harmony pour choisir celle qui correspond à votre foyer.</p>
+            </div>
+
+            {/* Horizontally scrollable container */}
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-[13px] border-collapse min-w-[800px]">
+                
+                {/* Columns Header */}
+                <thead>
+                  <tr className="bg-warm text-muted border-b border-outline text-[10px] font-bold uppercase tracking-wider">
+                    <th className="py-4 px-6 border-r border-outline max-w-[200px]">Fonctionnalités</th>
+                    {plans.map((p) => (
+                      <th key={p.id} className="py-4 px-6 text-center">
+                        <div className="font-display text-ink font-bold text-sm tracking-normal uppercase">{p.name}</div>
+                        <span className="text-[9px] text-muted/60 tracking-[0.15em] lowercase font-normal">{p.tagline}</span>
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+
+                {/* Table Body */}
+                <tbody className="divide-y divide-outline">
+                  
+                  {/* Row: Number of devices */}
+                  <tr className="hover:bg-warm/30 transition-colors">
+                    <td className="py-4 px-6 font-bold border-r border-outline">Appareils inclus</td>
+                    {plans.map((p) => (
+                      <td key={p.id} className="py-4 px-6 text-center text-ink font-bold">
+                        {p.id === "1device" ? "1 appareil" : p.id === "3device" ? "3 appareils" : p.id === "5device" ? "5 appareils" : "10 appareils"}
+                      </td>
+                    ))}
+                  </tr>
+
+                  {/* Row: Antimalware / Antiphishing */}
+                  <tr className="hover:bg-warm/30 transition-colors">
+                    <td className="py-4 px-6 font-bold border-r border-outline">Sécurisation Mobile & PC</td>
+                    {plans.map((p) => (
+                      <td key={p.id} className="py-4 px-6 text-center">
+                        <div className="flex justify-center text-primary"><Check className="h-5 w-5" strokeWidth={3} /></div>
+                      </td>
+                    ))}
+                  </tr>
+
+                  {/* Row: Phishing/Malware */}
+                  <tr className="hover:bg-warm/30 transition-colors">
+                    <td className="py-4 px-6 font-bold border-r border-outline">Anti-phishing & Anti-malware</td>
+                    {plans.map((p) => (
+                      <td key={p.id} className="py-4 px-6 text-center">
+                        <div className="flex justify-center text-primary"><Check className="h-5 w-5" strokeWidth={3} /></div>
+                      </td>
+                    ))}
+                  </tr>
+
+                  {/* Row: Parental Control */}
+                  <tr className="hover:bg-warm/30 transition-colors">
+                    <td className="py-4 px-6 font-bold border-r border-outline">Contrôle Parental</td>
+                    {plans.map((p) => (
+                      <td key={p.id} className="py-4 px-6 text-center text-muted font-medium text-xs">
+                        {p.id === "1device" ? (
+                          <span className="text-muted/40">—</span>
+                        ) : p.id === "3device" ? (
+                          "Intelligent & Filtrage Web"
+                        ) : p.id === "5device" ? (
+                          "Intelligent & Filtrage Web"
+                        ) : (
+                          "Multi-profils & Personnalisé"
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+
+                  {/* Row: Sandboxing */}
+                  <tr className="hover:bg-warm/30 transition-colors">
+                    <td className="py-4 px-6 font-bold border-r border-outline">Anti-ransomware & Isolation</td>
+                    {plans.map((p) => (
+                      <td key={p.id} className="py-4 px-6 text-center text-muted font-medium text-xs">
+                        {p.id === "1device" || p.id === "3device" ? (
+                          <span className="text-muted/40">—</span>
+                        ) : p.id === "5device" ? (
+                          "Sandboxing avancé"
+                        ) : (
+                          "ThreatCloud AI Sandboxing"
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+
+                  {/* Row: Support type */}
+                  <tr className="hover:bg-warm/30 transition-colors">
+                    <td className="py-4 px-6 font-bold border-r border-outline">Assistance & Support</td>
+                    {plans.map((p) => (
+                      <td key={p.id} className="py-4 px-6 text-center text-muted font-medium text-xs">
+                        {p.id === "1device" || p.id === "3device" ? (
+                          "Support Agilly 24/7"
+                        ) : p.id === "5device" ? (
+                          "Support SOC Agilly prioritaire"
+                        ) : (
+                          "Accompagnement SOC & Proactif"
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+
+                  {/* Row: Monthly price */}
+                  <tr className="hover:bg-warm/30 transition-colors">
+                    <td className="py-4 px-6 font-bold border-r border-outline">Tarif Mensuel</td>
+                    {plans.map((p) => (
+                      <td key={p.id} className="py-4 px-6 text-center text-ink font-mono font-bold">
+                        {formatPrice(p.monthly)} <span className="text-[10px] text-muted font-sans font-normal">/ mois</span>
+                      </td>
+                    ))}
+                  </tr>
+
+                  {/* Row: Yearly price */}
+                  <tr className="hover:bg-warm/30 transition-colors bg-primary-muted/20">
+                    <td className="py-4 px-6 font-bold border-r border-outline text-primary-deep">Tarif Annuel (Promo)</td>
+                    {plans.map((p) => (
+                      <td key={p.id} className="py-4 px-6 text-center text-primary-deep font-mono font-extrabold">
+                        {formatPrice(p.yearly)} <span className="text-[10px] text-primary font-sans font-normal">/ an</span>
+                      </td>
+                    ))}
+                  </tr>
+
+                  {/* Row: Action CTAs */}
+                  <tr className="bg-warm/20">
+                    <td className="py-4 px-6 border-r border-outline"></td>
+                    {plans.map((p) => (
+                      <td key={p.id} className="py-4 px-6 text-center">
+                        <Link
+                          href={`/offres/${p.id}?billing=yearly`}
+                          className="inline-block bg-primary hover:bg-primary-deep text-white text-[10px] font-bold uppercase tracking-wider px-4 py-2.5 rounded-none transition-colors"
+                        >
+                          Choisir
+                        </Link>
+                      </td>
+                    ))}
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+      </div>
+    </section>
   );
 }
-
